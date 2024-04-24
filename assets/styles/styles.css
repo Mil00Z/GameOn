@@ -1,5 +1,6 @@
 /* Import Component */
 @import url(./modal.css);
+@import url(./keyframes.css);
 
 :root {
   /* color */
@@ -381,17 +382,6 @@
  
   
 
-  /* KEYFRAMES */
-  @keyframes modalopen {
-
-      from {
-        opacity: 0;
-        transform: translateY(-150px);
-      }
-
-      to {
-        opacity: 1;
-      }
-  }
+ 
   
   

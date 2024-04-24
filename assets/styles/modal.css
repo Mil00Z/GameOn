@@ -18,24 +18,38 @@
 }
 
 .content {
+  --radius:10px;
   position: relative;
   width: 100%;
   max-width: 500px;
+  height:auto;
   margin: 5% auto;
-  padding-top: 10px;
-  animation-name: modalopen;
-  animation-duration: var(--modal-duration);
-  background: var(--darken-color);
-  border-radius: 10px;
-  overflow: hidden;
   color: var(--white-color);
+  background: var(--darken-color);
+  border-radius: var(--radius);
+  overflow: hidden;
+  animation-name: modalopening;
+  animation-duration: var(--modal-duration);
 }
 
 .modal-body {
-  height:75dvh;
+  min-height:var(--height);
+  height:auto;
   margin: 15px auto;
   padding: 15px 8%;
-  
+}
+
+.modal-form{
+  transition: var(--regular-transition);
+}
+
+/* When the form is OK go to Panel 2 */
+.modal-form.off {
+  display:none;
+  visibility: hidden;
+}
+.modal-form.sucess{
+  animation:modal-effects-top 1.1s ease-in-out forwards;
 }
 
 label {
@@ -74,10 +88,6 @@ input:valid {
   font-size: 1.25rem;
 }
 
-/* When the form is OK go to Panel 2 */
-.modal-form.success{
-  display:none;
-}
 
 .formData[data-error]::after {
   content: attr(data-error);
@@ -98,7 +108,6 @@ input:valid {
 .formData[data-error-visible="true"] .text-control {
   border: 2px solid var(--error-color);
 }
-
 
 input[data-error]::after {
     content: attr(data-error);
@@ -309,17 +318,18 @@ input[type=submit]:hover,
 }
 
 /* 2nd Panel On Modal */
-.modal-success{
+.modal-message{
   /* display: none; */
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-.modal-sucess.on{
+.modal-message.on{
   display:flex;
+  animation:modal-effects-bottom 1.1s ease-in-out forwards;
 }
 
-.modal-success > p {
+.modal-message > p {
   font-size:2rem;
   color:var(--white-color);
   text-align: center;
@@ -327,6 +337,4 @@ input[type=submit]:hover,
 }
 
 .btn-close {
-
-
 }
