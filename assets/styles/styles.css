@@ -52,6 +52,11 @@
     max-width:var(--skeleton);
   }
   
+  .debeug{
+    outline:3px dotted var(--debeug-color);
+    padding:2rem;
+  }
+  
   p {
     margin-bottom: 0;
     padding: 0.5vw;

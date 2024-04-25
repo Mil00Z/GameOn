@@ -6,7 +6,6 @@ const topNavTrigger = document.getElementById('myTopnav');
 const modalCloser = document.querySelectorAll('.closer');
 
 
-
 //Get Modal In/Out by click trigger
 if (modalTrigger !== null && modalCloser !== null) {
 
@@ -62,13 +61,20 @@ const formSubmit = document.getElementById('submiter');
 
 formSubmit.addEventListener('click',(e)=>{
 
-  let modalFlexHeight = e.target.closest('.modal-form').offsetHeight;
+  const log = document.createElement("div");
 
-  console.log(modalFlexHeight);
+  log.classList.add('debeug');
+  document.querySelector('.content').append(log);
 
+  testSubmit(log);
+
+
+// Flexi Height
+ // let modalFlexHeight = e.target.closest('.modal-form').offsetHeight;
+
+  // console.log(modalFlexHeight);
   e.target.style.setProperty('--height', '50%');
   e.target.closest('.modal-form').classList.toggle('sucess');
-  
   
   document.body.querySelector('.modal-message').classList.toggle('on');
 
@@ -107,6 +113,23 @@ formSubmit.addEventListener('click',(e)=>{
 
     console.log('switch state function');
 
+  }
+
+  
+  function getModalHeight(target){
+
+     let modalFlexHeight = e.target.closest(`${target}`).offsetHeight;
+
+    console.log(modalFlexHeight);
+
+  }
+
+
+  function testSubmit(element) {
+
+    element.textContent = `Form Submitted at : ${new Date()}`;
+
+    // e.stopPropagation();
   }
 
 
