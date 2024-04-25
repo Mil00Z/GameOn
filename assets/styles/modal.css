@@ -224,7 +224,7 @@ input[data-error]::after {
 }
 
 
-input[type=submit],
+#submiter,
 .btn-submit,
 .btn-signup {
   display: block;
@@ -239,7 +239,7 @@ input[type=submit],
   border: 0;
 }
 
-input[type=submit]:hover,
+#submiter:hover,
 .btn-submit:hover{
   background: var(--third-color);
 }

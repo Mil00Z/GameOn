@@ -53,8 +53,10 @@
   }
   
   .debeug{
-    outline:3px dotted var(--debeug-color);
-    padding:2rem;
+    outline: 3px dotted var(--debeug-color);
+    padding: 2rem;
+    background: white;
+    color: var(--primary-color)
   }
   
   p {
