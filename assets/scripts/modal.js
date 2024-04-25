@@ -25,8 +25,7 @@ if (modalTrigger !== null && modalCloser !== null) {
 
       closer.addEventListener('click',(e) =>{
 
-        console.log(typeof closer);
-
+    
         setDisplayModal(modalElement,'none');
         switchStateElement(closer);
 
@@ -52,28 +51,22 @@ modalbodyChilds.forEach((modalChild) => {
 
   modalChild.dataset.display = getClassName; 
 
-  console.log(modalChild.dataset.display);
+  //Display Childs of the Form Body
+  // console.log(modalChild.dataset.display);
 });
 
 
 // Testing Simple click "fake" submiting Form
 const formSubmit = document.getElementById('submiter');
 
-formSubmit.addEventListener('click',(e)=>{
+formSubmit.addEventListener('click',(e)=> {
 
-  const log = document.createElement("div");
+  e.preventDefault();
+ 
+  getDataInput('.modal-form');
+  testSubmit();
 
-  log.classList.add('debeug');
-  document.querySelector('.content').append(log);
-
-  testSubmit(log);
-
-
-// Flexi Height
- // let modalFlexHeight = e.target.closest('.modal-form').offsetHeight;
-
-  // console.log(modalFlexHeight);
-  e.target.style.setProperty('--height', '50%');
+ 
   e.target.closest('.modal-form').classList.toggle('sucess');
   
   document.body.querySelector('.modal-message').classList.toggle('on');
@@ -81,10 +74,12 @@ formSubmit.addEventListener('click',(e)=>{
 });
 
 
+
+
 // FUNCTIONS
 /**
- * @param {string} target
  * @param {string} navItem
+ * @param {string} target
  * @param {string} displayValue
  * @param {object} element
  */
@@ -111,7 +106,7 @@ formSubmit.addEventListener('click',(e)=>{
 
     element.classList.toggle('on');
 
-    console.log('switch state function');
+    // console.log('switch state function');
 
   }
 
@@ -120,17 +115,55 @@ formSubmit.addEventListener('click',(e)=>{
 
      let modalFlexHeight = e.target.closest(`${target}`).offsetHeight;
 
-    console.log(modalFlexHeight);
+    // console.log(modalFlexHeight);
 
   }
 
 
-  function testSubmit(element) {
+  function testSubmit() {
 
-    element.textContent = `Form Submitted at : ${new Date()}`;
+    // event.preventDefault();
 
-    // e.stopPropagation();
+    const box = document.createElement("div");
+
+    box.classList.add('debeug');
+    document.querySelector('.content').append(box);
+
+
+    //Create Date submission
+    let timer = new Date();
+
+    //Display submission date on debeug panel
+    box.textContent = `Form Submitted at: ${timer.getDate()}/${timer.getUTCMonth()}/${timer.getFullYear()} 
+    ${timer.getHours()}h${timer.getMinutes()}`;
+
+    console.log(localStorage);
+
   }
+
+
+  function getDataInput(formTargeted){
+
+    // Create formdata object to store later
+    const formData = new FormData(document.querySelector(`${formTargeted}`));
+
+    console.log('Données du Form 👉',formData);
+
+    // Get each values of Form
+    for (const pairs of formData.entries()){
+    
+      // console.log(pairs);
+
+    }
+
+    //Store Datas in localstorage Area
+    let exportDatas = Array.from(formData);
+    localStorage.setItem('the-form',JSON.stringify(exportDatas));
+
+    
+ 
+  }
+
 
 
 
