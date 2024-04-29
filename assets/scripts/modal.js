@@ -74,6 +74,22 @@ formSubmit.addEventListener('click',(e)=> {
 });
 
 
+// Use Case : testing input data with logical rules
+const firstInput = document.querySelector('#first');
+firstInput.addEventListener('change',(e)=> {
+
+   if (firstInput.value.length < 3 || firstInput.value === '') {
+
+      console.error(`${firstInput.getAttribute('name')} - data input is not correct`);
+
+   } else {
+
+    prompt(`Goods values for ${firstInput.value}`);
+
+   }
+
+});
+
 
 
 // FUNCTIONS
@@ -149,19 +165,27 @@ formSubmit.addEventListener('click',(e)=> {
 
     console.log('Données du Form 👉',formData);
 
+    //Clone the initial object Form Data to another thing
+    const objectData = Object.assign({},formData);
+    // console.log(objectData); 
+     // => Impossible de copier l'objet !
+
+
     // Get each values of Form
-    for (const pairs of formData.entries()){
+    // for (const pairs of formData.entries()){
+
+    // }
+
     
-      // console.log(pairs);
-
-    }
-
     //Store Datas in localstorage Area
     let exportDatas = Array.from(formData);
-    localStorage.setItem('the-form',JSON.stringify(exportDatas));
 
-    
- 
+    const storageFreezeName = 'the-form-count';
+  
+    localStorage.setItem(`${storageFreezeName}`,JSON.stringify(exportDatas));
+
+    // console.log(JSON.parse(localStorage.getItem(`${storageFreezeName}`)));
+
   }
 
 
