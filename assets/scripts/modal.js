@@ -74,21 +74,96 @@ formSubmit.addEventListener('click',(e)=> {
 });
 
 
-// Use Case : testing input data with logical rules
+// Use Case : testing each input data with logical rules
 const firstInput = document.querySelector('#first');
-firstInput.addEventListener('change',(e)=> {
+// firstInput.addEventListener('change',(e)=> {
 
-   if (firstInput.value.length < 3 || firstInput.value === '') {
+//    if (firstInput.value.length < 2 || firstInput.value === '') {
 
-      console.error(`${firstInput.getAttribute('name')} - data input is not correct`);
+//       console.error(`${firstInput.getAttribute('name')} - data input is not correct`);
 
-   } else {
+//    } else {
+    
+//     console.log(`Goods values '${firstInput.value}' for ${firstInput}`);
+//     // prompt(`Goods values for ${firstInput.value}`);
 
-    prompt(`Goods values for ${firstInput.value}`);
+//    }
 
-   }
+// });
+
+const lastInput = document.querySelector('#last');
+// lastInput.addEventListener('change',(e)=> {
+
+//   if (lastInput.value.length < 2 || lastInput.value === '') {
+
+//      console.error(`${lastInput.getAttribute('name')} - data input is not correct`);
+
+//   } else {
+   
+//    console.log(`Goods values '${lastInput.value}' for ${lastInput}`)
+   
+
+//   }
+
+// });
+
+//Inputs Names : Testing group of same datas Text
+const namesInput = document.querySelectorAll('#first,#last');
+
+namesInput.forEach((input)=>{
+
+  input.addEventListener('change',(e) =>{
+
+    if(input.value.length < 2 || input.value == ''){
+
+      // Display Infos in Log
+      displayInputDataLog(input,'wrong');
+
+      //Inject Warning Message about the Input Field
+      let newWarning = document.createElement('div');
+      newWarning.classList.add('debug-input');
+
+      newWarning.textContent = `❌ "${input.value}" is too short.
+      2 Characters required`;
+
+      input.closest('.formData').append(newWarning);
+
+    } else {
+
+      // Display Infos in Log
+      displayInputDataLog(input);
+
+      // Testing Element on DOm + Remove Warning
+      console.log(input.closest('.formData .debug-input'));
+      input.closest('.formData .debug-input').remove();
+
+  
+    }
+
+  });
+
 
 });
+
+
+// Input Quantity Competitions
+const quantityInput = document.querySelector('#quantity');
+
+quantityInput.addEventListener('change',(e) => {
+
+  if (quantityInput.value == 0) {
+
+    // Display Infos in Log
+    displayInputDataLog(quantityInput,'wrong');
+
+  }  else {
+
+      displayInputDataLog(quantityInput);
+      
+  }
+
+});
+
 
 
 
@@ -98,6 +173,7 @@ firstInput.addEventListener('change',(e)=> {
  * @param {string} target
  * @param {string} displayValue
  * @param {object} element
+ * @param {string}  wrong
  */
 
   // Edit Nav
@@ -132,6 +208,20 @@ firstInput.addEventListener('change',(e)=> {
      let modalFlexHeight = e.target.closest(`${target}`).offsetHeight;
 
     // console.log(modalFlexHeight);
+
+  }
+  
+
+  function displayInputDataLog(inputElement,state){
+
+    if  (state == 'wrong') {
+
+      console.warn(`${inputElement.getAttribute('name')} - data input is not correct`);
+
+    } else {
+
+      console.log(`${inputElement.getAttribute('name')} // is a good Input Field Data 💪`);
+    }
 
   }
 
