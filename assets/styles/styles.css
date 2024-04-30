@@ -52,6 +52,22 @@
     max-width:var(--skeleton);
   }
   
+  .debeug{
+    outline: 3px dotted var(--debeug-color);
+    padding: 2rem;
+    background: white;
+    color: var(--primary-color)
+  }
+
+  .debug-input {
+    outline: 2px dashed var(--primary-color);
+    padding:5px;
+    margin-block:5px;
+    font-size:.75rem;
+    background: white;
+    color: var(--primary-color);
+  }
+  
   p {
     margin-bottom: 0;
     padding: 0.5vw;
