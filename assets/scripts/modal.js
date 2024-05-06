@@ -121,12 +121,13 @@ const quantityInput = document.querySelector('#quantity');
 
 quantityInput.addEventListener('change',(e) => {
 
-  if (quantityInput.value == 0) {
+
+  if (typeof quantityInput.valueAsNumber !== "number") {
 
     // Display Infos in Log
     displayInputDataLog(quantityInput,'wrong');
 
-  }  else {
+  } else {
 
       displayInputDataLog(quantityInput);
       
@@ -135,7 +136,6 @@ quantityInput.addEventListener('change',(e) => {
 });
 
 // Input Birthdate 
-
 const birthdateInput = document.querySelector('#birthdate');
 
 birthdateInput.addEventListener('change',(e) => {
@@ -153,6 +153,8 @@ birthdateInput.addEventListener('change',(e) => {
 
 
 });
+
+//Input 
 
 
 
