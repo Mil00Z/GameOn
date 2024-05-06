@@ -134,6 +134,25 @@ quantityInput.addEventListener('change',(e) => {
 
 });
 
+// Input Birthdate 
+
+const birthdateInput = document.querySelector('#birthdate');
+
+birthdateInput.addEventListener('change',(e) => {
+
+
+  let birthdateDatas = birthdateInput.valueAsDate;
+
+  birthdateDatasYear = birthdateDatas.getFullYear();
+  birthdateDatasMonth = birthdateDatas.getMonth();
+  birthdateDatasDay = birthdateDatas.getDay();
+
+  // console.log(birthdateDatasMonth,birthdateDatasYear,birthdateDatasDay);
+
+  isLegal(birthdateDatasYear);
+
+
+});
 
 
 
@@ -178,6 +197,21 @@ quantityInput.addEventListener('change',(e) => {
      let modalFlexHeight = e.target.closest(`${target}`).offsetHeight;
 
     // console.log(modalFlexHeight);
+
+  }
+
+  
+  //Testing if the Birthdate Year is OK with the LAW (just with year, it's not a perfect calculus)
+  function isLegal(getDateYear){
+
+    let yearToday = new Date().getFullYear();
+    const legalAge = 18;
+
+    if (yearToday - getDateYear <= legalAge) {
+
+        console.warn('Ask your parent to doing this buddy :', `${yearToday - getDateYear} years`);
+
+    } 
 
   }
   
