@@ -53,21 +53,21 @@
   }
   
   .debeug{
-    outline: 3px dotted var(--debeug-color);
-    padding: 2rem;
+    outline: 4px dotted var(--debeug-color);
+    padding: 1.5rem;
     background: white;
     color: var(--primary-color)
   }
 
   .debug-input {
-    outline: 2px dashed var(--primary-color);
+    outline: 2px dashed currentColor;
     padding:5px;
-    margin-block:5px;
-    font-size:.75rem;
-    background: white;
-    color: var(--primary-color);
+    margin-block:8px;
+    font-size:.8rem;
+    background: var(--primary-color);
+    color: var(--white-color);
   }
-  
+ 
   p {
     margin-bottom: 0;
     padding: 0.5vw;

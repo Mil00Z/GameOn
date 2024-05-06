@@ -81,30 +81,33 @@ namesInput.forEach((input)=>{
 
   input.addEventListener('change',(e) =>{
 
+    //Inject Warning Message about the Input Field
+    let newWarning = document.createElement('div');
+  
+
     if(input.value.length < 2 || input.value == ''){
 
       // Display Infos in Log
       displayInputDataLog(input,'wrong');
 
-      //Inject Warning Message about the Input Field
-      let newWarning = document.createElement('div');
-      newWarning.classList.add('debug-input');
 
+      newWarning.classList.add('debug-input');
       newWarning.textContent = `❌ "${input.value}" is too short.
       2 Characters required`;
 
       input.closest('.formData').append(newWarning);
 
+    
     } else {
 
       // Display Infos in Log
       displayInputDataLog(input);
 
-      // Testing Element on DOm + Remove Warning
-      console.log(input.closest('.formData .debug-input'));
-      input.closest('.formData .debug-input').remove();
+      input.classList.add('valid');
+      
+      let closestWarning = document.querySelector('.formData .debug-input');
+      closestWarning.remove();
 
-  
     }
 
   });
