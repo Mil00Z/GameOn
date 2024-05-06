@@ -215,26 +215,32 @@ quantityInput.addEventListener('change',(e) => {
   }
 
 
-  function getDataInput(formTargeted){
+  function getDataInput(elementTargeted){
+
+    const formTargeted = document.querySelector(`${elementTargeted}`);
 
     // Create formdata object to store later
-    const formData = new FormData(document.querySelector(`${formTargeted}`));
+    const formData = new FormData(formTargeted);
 
     console.log('Données du Form 👉',formData);
 
-    //Clone the initial object Form Data to another thing
-    const objectData = Object.assign({},formData);
-    // console.log(objectData); 
-     // => Impossible de copier l'objet !
+    //Clone the initial object Form Data to another free Object
+    // let objectDataCopy = Object.assign({},formData);
 
+     let objectDataCopy = {...formData};
+  
+      // => Impossible de copier l'objet, no log available !
+      console.log(objectDataCopy); 
+   
 
-    // Get each values of Form
+    // Get each values of Form Testing Iteration method
     // for (const pairs of formData.entries()){
 
     // }
 
     
     //Store Datas in localstorage Area
+    // let exportDatas = Array.from(formData);
     let exportDatas = Array.from(formData);
 
     const storageFreezeName = 'the-form-count';
