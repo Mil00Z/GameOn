@@ -74,39 +74,6 @@ formSubmit.addEventListener('click',(e)=> {
 });
 
 
-// Use Case : testing each input data with logical rules
-const firstInput = document.querySelector('#first');
-// firstInput.addEventListener('change',(e)=> {
-
-//    if (firstInput.value.length < 2 || firstInput.value === '') {
-
-//       console.error(`${firstInput.getAttribute('name')} - data input is not correct`);
-
-//    } else {
-    
-//     console.log(`Goods values '${firstInput.value}' for ${firstInput}`);
-//     // prompt(`Goods values for ${firstInput.value}`);
-
-//    }
-
-// });
-
-const lastInput = document.querySelector('#last');
-// lastInput.addEventListener('change',(e)=> {
-
-//   if (lastInput.value.length < 2 || lastInput.value === '') {
-
-//      console.error(`${lastInput.getAttribute('name')} - data input is not correct`);
-
-//   } else {
-   
-//    console.log(`Goods values '${lastInput.value}' for ${lastInput}`)
-   
-
-//   }
-
-// });
-
 //Inputs Names : Testing group of same datas Text
 const namesInput = document.querySelectorAll('#first,#last');
 
