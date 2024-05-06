@@ -154,7 +154,26 @@ birthdateInput.addEventListener('change',(e) => {
 
 });
 
-//Input 
+//Inputs Location Radio
+
+const locationInputs = document.querySelectorAll(`input[type='radio']`);
+
+locationInputs.forEach((location) => {
+
+  console.log(location);
+
+  location.addEventListener('change',(e) =>{
+    
+    if (location.checked) {
+
+      console.log(location,'=> is checked');
+
+    } 
+    
+  });
+
+
+});
 
 
 
