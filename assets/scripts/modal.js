@@ -74,39 +74,6 @@ formSubmit.addEventListener('click',(e)=> {
 });
 
 
-// Use Case : testing each input data with logical rules
-const firstInput = document.querySelector('#first');
-// firstInput.addEventListener('change',(e)=> {
-
-//    if (firstInput.value.length < 2 || firstInput.value === '') {
-
-//       console.error(`${firstInput.getAttribute('name')} - data input is not correct`);
-
-//    } else {
-    
-//     console.log(`Goods values '${firstInput.value}' for ${firstInput}`);
-//     // prompt(`Goods values for ${firstInput.value}`);
-
-//    }
-
-// });
-
-const lastInput = document.querySelector('#last');
-// lastInput.addEventListener('change',(e)=> {
-
-//   if (lastInput.value.length < 2 || lastInput.value === '') {
-
-//      console.error(`${lastInput.getAttribute('name')} - data input is not correct`);
-
-//   } else {
-   
-//    console.log(`Goods values '${lastInput.value}' for ${lastInput}`)
-   
-
-//   }
-
-// });
-
 //Inputs Names : Testing group of same datas Text
 const namesInput = document.querySelectorAll('#first,#last');
 
@@ -114,30 +81,33 @@ namesInput.forEach((input)=>{
 
   input.addEventListener('change',(e) =>{
 
+    //Inject Warning Message about the Input Field
+    let newWarning = document.createElement('div');
+  
+
     if(input.value.length < 2 || input.value == ''){
 
       // Display Infos in Log
       displayInputDataLog(input,'wrong');
 
-      //Inject Warning Message about the Input Field
-      let newWarning = document.createElement('div');
-      newWarning.classList.add('debug-input');
 
+      newWarning.classList.add('debug-input');
       newWarning.textContent = `❌ "${input.value}" is too short.
       2 Characters required`;
 
       input.closest('.formData').append(newWarning);
 
+    
     } else {
 
       // Display Infos in Log
       displayInputDataLog(input);
 
-      // Testing Element on DOm + Remove Warning
-      console.log(input.closest('.formData .debug-input'));
-      input.closest('.formData .debug-input').remove();
+      input.classList.add('valid');
+      
+      let closestWarning = document.querySelector('.formData .debug-input');
+      closestWarning.remove();
 
-  
     }
 
   });
@@ -164,6 +134,25 @@ quantityInput.addEventListener('change',(e) => {
 
 });
 
+// Input Birthdate 
+
+const birthdateInput = document.querySelector('#birthdate');
+
+birthdateInput.addEventListener('change',(e) => {
+
+
+  let birthdateDatas = birthdateInput.valueAsDate;
+
+  birthdateDatasYear = birthdateDatas.getFullYear();
+  birthdateDatasMonth = birthdateDatas.getMonth();
+  birthdateDatasDay = birthdateDatas.getDay();
+
+  // console.log(birthdateDatasMonth,birthdateDatasYear,birthdateDatasDay);
+
+  isLegal(birthdateDatasYear);
+
+
+});
 
 
 
@@ -210,6 +199,21 @@ quantityInput.addEventListener('change',(e) => {
     // console.log(modalFlexHeight);
 
   }
+
+  
+  //Testing if the Birthdate Year is OK with the LAW (just with year, it's not a perfect calculus)
+  function isLegal(getDateYear){
+
+    let yearToday = new Date().getFullYear();
+    const legalAge = 18;
+
+    if (yearToday - getDateYear <= legalAge) {
+
+        console.warn('Ask your parent to doing this buddy :', `${yearToday - getDateYear} years`);
+
+    } 
+
+  }
   
 
   function displayInputDataLog(inputElement,state){
@@ -248,26 +252,32 @@ quantityInput.addEventListener('change',(e) => {
   }
 
 
-  function getDataInput(formTargeted){
+  function getDataInput(elementTargeted){
+
+    const formTargeted = document.querySelector(`${elementTargeted}`);
 
     // Create formdata object to store later
-    const formData = new FormData(document.querySelector(`${formTargeted}`));
+    const formData = new FormData(formTargeted);
 
     console.log('Données du Form 👉',formData);
 
-    //Clone the initial object Form Data to another thing
-    const objectData = Object.assign({},formData);
-    // console.log(objectData); 
-     // => Impossible de copier l'objet !
+    //Clone the initial object Form Data to another free Object
+    // let objectDataCopy = Object.assign({},formData);
 
+     let objectDataCopy = {...formData};
+  
+      // => Impossible de copier l'objet, no log available !
+      console.log(objectDataCopy); 
+   
 
-    // Get each values of Form
+    // Get each values of Form Testing Iteration method
     // for (const pairs of formData.entries()){
 
     // }
 
     
     //Store Datas in localstorage Area
+    // let exportDatas = Array.from(formData);
     let exportDatas = Array.from(formData);
 
     const storageFreezeName = 'the-form-count';
