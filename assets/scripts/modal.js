@@ -183,6 +183,37 @@ locationInputs.forEach((location) => {
 });
 
 
+// Inputs Checkboxes
+const marketingInputs = document.querySelectorAll(`input[type='checkbox']`);
+const requiredMarketingInput = 'checkbox1';
+
+marketingInputs.forEach((marketing)=> {
+
+  marketing.addEventListener('change',(e) => {
+
+  
+    // Checking if Current is the Required One
+    if (marketing.getAttribute('id') === requiredMarketingInput){
+
+    
+        // Checking if Current is Checked
+        if (!marketing.checked) {
+      
+          console.error(`this input is required !`);
+          // marketing.defaultChecked = true ;
+        } 
+
+    } else {
+
+      console.log(`another input is here`);
+
+    }
+ 
+  });
+
+});
+
+
 
 // FUNCTIONS
 /**
