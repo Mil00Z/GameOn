@@ -155,7 +155,7 @@ birthdateInput.addEventListener('change',(e) => {
 });
 
 //Inputs Location Radio
-const locationInputs = document.querySelectorAll(`input[type='radio']`);
+const locationInputs = document.querySelectorAll(`input[name='location']`);
 
 locationInputs.forEach((location) => {
 
@@ -168,12 +168,12 @@ locationInputs.forEach((location) => {
     } else {
 
       //Inject Warning Message about the Input Field
-      let newWarning = document.createElement('div');
+      // let newWarning = document.createElement('div');
 
-      newWarning.classList.add('checked');
-      newWarning.textContent = `❌ "${location.value}" is not correct`;
+      // newWarning.classList.add('checked');
+      // newWarning.textContent = `❌ "${location.value}" is not correct`;
 
-      location.closest('.formData').append(newWarning);
+      // location.closest('.formData').append(newWarning);
 
     }
     
