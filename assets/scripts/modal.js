@@ -121,15 +121,16 @@ const quantityInput = document.querySelector('#quantity');
 
 quantityInput.addEventListener('change',(e) => {
 
-
-  if (typeof quantityInput.valueAsNumber !== "number") {
+  if (isNaN(quantityInput.value) || quantityInput.value == "") {
 
     // Display Infos in Log
     displayInputDataLog(quantityInput,'wrong');
+    quantityInput.classList.toggle('valid');
 
   } else {
 
       displayInputDataLog(quantityInput);
+      quantityInput.classList.add('valid');
       
   }
 
