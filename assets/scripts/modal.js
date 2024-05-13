@@ -341,32 +341,14 @@ marketingInputs.forEach((marketing)=> {
 
     // Create formdata object to store later
     const formData = new FormData(formTargeted);
-
-    console.log('Données du Form 👉',formData);
+    console.log('Données directes du Formulaire 👉',formData);
 
     //Clone the initial object Form Data to another free Object
-    // let objectDataCopy = Object.assign({},formData);
-
-     let objectDataCopy = Object.fromEntries(formData);
-     console.log(objectDataCopy); 
-     
-    
-    // Get each values of Form Testing Iteration method
-    // for (const pairs of formData.entries()){
-
-    // }
-
-
-    //Store Datas in localstorage Area
-    // let exportDatas = Array.from(formData);
-    let exportDatas = Array.from(formData);
+     let objectDataCopy = Object.fromEntries(formData); 
 
     const storageFreezeName = 'the-form-count';
-  
-    localStorage.setItem(`${storageFreezeName}`,JSON.stringify(exportDatas));
 
-    // console.log(JSON.parse(localStorage.getItem(`${storageFreezeName}`)));
-
+    localStorage.setItem(`${storageFreezeName}`, JSON.stringify(objectDataCopy));
   }
 
 
