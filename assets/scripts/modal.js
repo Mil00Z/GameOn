@@ -68,7 +68,8 @@ formSubmit.addEventListener('click',(e)=> {
 
   const getValidInputs = document.body.querySelectorAll('.valid');
 
-  if (getValidInputs.length > 5) {
+  // Quick Dumb Condition to check number of input 'valid' with cssClass
+  if (getValidInputs.length > 3) {
 
     // Fade In Sucess
     e.target.closest('.modal-form').classList.toggle('sucess');
