@@ -168,12 +168,12 @@ locationInputs.forEach((location) => {
     } else {
 
       //Inject Warning Message about the Input Field
-      // let newWarning = document.createElement('div');
+      let newWarning = document.createElement('div');
 
-      // newWarning.classList.add('checked');
-      // newWarning.textContent = `❌ "${location.value}" is not correct`;
+      newWarning.classList.add('checked');
+      newWarning.textContent = `❌ "${location.value}" is not correct`;
 
-      // location.closest('.formData').append(newWarning);
+      location.closest('.formData').append(newWarning);
 
     }
     
@@ -195,24 +195,22 @@ marketingInputs.forEach((marketing)=> {
     // Checking if Current is the Required One
     if (marketing.getAttribute('id') === requiredMarketingInput){
 
-    
         // Checking if Current is Checked
         if (!marketing.checked) {
       
           console.error(`this input is required !`);
-          // marketing.defaultChecked = true ;
+          
         } 
 
     } else {
 
-      console.log(`another input is here`);
+      console.log(`simple input checkbox available/ not required`);
 
     }
  
   });
 
 });
-
 
 
 // FUNCTIONS
