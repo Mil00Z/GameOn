@@ -66,10 +66,16 @@ formSubmit.addEventListener('click',(e)=> {
   getDataInput('.modal-form');
   testSubmit();
 
- 
-  e.target.closest('.modal-form').classList.toggle('sucess');
+  const getValidInputs = document.body.querySelectorAll('.valid');
+
+  if (getValidInputs.length > 5) {
+
+    // Fade In Sucess
+    e.target.closest('.modal-form').classList.toggle('sucess');
   
-  document.body.querySelector('.modal-message').classList.toggle('on');
+    document.body.querySelector('.modal-message').classList.toggle('on');
+
+  }
 
 });
 
@@ -84,7 +90,6 @@ namesInput.forEach((input)=>{
     //Inject Warning Message about the Input Field
     let newWarning = document.createElement('div');
   
-
     if(input.value.length < 2 || input.value == ''){
 
       // Display Infos in Log
@@ -141,18 +146,28 @@ const birthdateInput = document.querySelector('#birthdate');
 
 birthdateInput.addEventListener('change',(e) => {
 
-
   let birthdateDatas = birthdateInput.valueAsDate;
 
   birthdateDatasYear = birthdateDatas.getFullYear();
   birthdateDatasMonth = birthdateDatas.getMonth();
   birthdateDatasDay = birthdateDatas.getDay();
 
-  // console.log(birthdateDatasMonth,birthdateDatasYear,birthdateDatasDay);
-
-  isLegal(birthdateDatasYear);
+  console.log(isLegal(birthdateDatasYear));
 
 
+  if (isLegal(birthdateDatasYear)) {
+
+    birthdateInput.classList.add('valid');
+    birthdateInput.classList.remove('invalid');
+
+  } else {
+
+    birthdateInput.classList.add('invalid');
+    birthdateInput.classList.remove('valid');
+
+  }
+
+  
 });
 
 //Inputs Location Radio
@@ -165,6 +180,7 @@ locationInputs.forEach((location) => {
     if (location.checked) {
 
       console.log(location.value,'=> is checked');
+      location.classList.add('valid');
 
     } else {
 
@@ -201,7 +217,9 @@ marketingInputs.forEach((marketing)=> {
       
           console.error(`this input is required !`);
           
-        } 
+        } else {
+          marketing.classList.add('valid');
+        }
 
     } else {
 
@@ -265,12 +283,19 @@ marketingInputs.forEach((marketing)=> {
     let yearToday = new Date().getFullYear();
     const legalAge = 18;
 
-    if (yearToday - getDateYear <= legalAge) {
+    if (yearToday - getDateYear < legalAge) {
 
         console.warn('Ask your parent to doing this buddy :', `${yearToday - getDateYear} years`);
 
-    } 
+        return false ;
 
+    } else {
+
+      return true;
+
+    }
+
+  
   }
   
 
@@ -322,18 +347,15 @@ marketingInputs.forEach((marketing)=> {
     //Clone the initial object Form Data to another free Object
     // let objectDataCopy = Object.assign({},formData);
 
-     let objectDataCopy = {...formData};
-  
-      // => Impossible de copier l'objet, no log available !
-      console.log(objectDataCopy); 
-   
-
+     let objectDataCopy = Object.fromEntries(formData);
+     console.log(objectDataCopy); 
+     
+    
     // Get each values of Form Testing Iteration method
     // for (const pairs of formData.entries()){
 
     // }
 
-  
 
     //Store Datas in localstorage Area
     // let exportDatas = Array.from(formData);
