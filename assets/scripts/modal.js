@@ -66,10 +66,17 @@ formSubmit.addEventListener('click',(e)=> {
   getDataInput('.modal-form');
   testSubmit();
 
- 
-  e.target.closest('.modal-form').classList.toggle('sucess');
+  const getValidInputs = document.body.querySelectorAll('.valid');
+
+  // Quick Dumb Condition to check number of input 'valid' with cssClass
+  if (getValidInputs.length > 3) {
+
+    // Fade In Sucess
+    e.target.closest('.modal-form').classList.toggle('sucess');
   
-  document.body.querySelector('.modal-message').classList.toggle('on');
+    document.body.querySelector('.modal-message').classList.toggle('on');
+
+  }
 
 });
 
@@ -84,7 +91,6 @@ namesInput.forEach((input)=>{
     //Inject Warning Message about the Input Field
     let newWarning = document.createElement('div');
   
-
     if(input.value.length < 2 || input.value == ''){
 
       // Display Infos in Log
@@ -121,15 +127,16 @@ const quantityInput = document.querySelector('#quantity');
 
 quantityInput.addEventListener('change',(e) => {
 
-
-  if (typeof quantityInput.valueAsNumber !== "number") {
+  if (isNaN(quantityInput.value) || quantityInput.value == "") {
 
     // Display Infos in Log
     displayInputDataLog(quantityInput,'wrong');
+    quantityInput.classList.toggle('valid');
 
   } else {
 
       displayInputDataLog(quantityInput);
+      quantityInput.classList.add('valid');
       
   }
 
@@ -140,18 +147,28 @@ const birthdateInput = document.querySelector('#birthdate');
 
 birthdateInput.addEventListener('change',(e) => {
 
-
   let birthdateDatas = birthdateInput.valueAsDate;
 
   birthdateDatasYear = birthdateDatas.getFullYear();
   birthdateDatasMonth = birthdateDatas.getMonth();
   birthdateDatasDay = birthdateDatas.getDay();
 
-  // console.log(birthdateDatasMonth,birthdateDatasYear,birthdateDatasDay);
-
-  isLegal(birthdateDatasYear);
+  console.log(isLegal(birthdateDatasYear));
 
 
+  if (isLegal(birthdateDatasYear)) {
+
+    birthdateInput.classList.add('valid');
+    birthdateInput.classList.remove('invalid');
+
+  } else {
+
+    birthdateInput.classList.add('invalid');
+    birthdateInput.classList.remove('valid');
+
+  }
+
+  
 });
 
 //Inputs Location Radio
@@ -164,16 +181,17 @@ locationInputs.forEach((location) => {
     if (location.checked) {
 
       console.log(location.value,'=> is checked');
+      location.classList.add('valid');
 
     } else {
 
       //Inject Warning Message about the Input Field
-      // let newWarning = document.createElement('div');
+      let newWarning = document.createElement('div');
 
-      // newWarning.classList.add('checked');
-      // newWarning.textContent = `❌ "${location.value}" is not correct`;
+      newWarning.classList.add('checked');
+      newWarning.textContent = `❌ "${location.value}" is not correct`;
 
-      // location.closest('.formData').append(newWarning);
+      location.closest('.formData').append(newWarning);
 
     }
     
@@ -195,24 +213,24 @@ marketingInputs.forEach((marketing)=> {
     // Checking if Current is the Required One
     if (marketing.getAttribute('id') === requiredMarketingInput){
 
-    
         // Checking if Current is Checked
         if (!marketing.checked) {
       
           console.error(`this input is required !`);
-          // marketing.defaultChecked = true ;
-        } 
+          
+        } else {
+          marketing.classList.add('valid');
+        }
 
     } else {
 
-      console.log(`another input is here`);
+      console.log(`simple input checkbox available/ not required`);
 
     }
  
   });
 
 });
-
 
 
 // FUNCTIONS
@@ -266,12 +284,19 @@ marketingInputs.forEach((marketing)=> {
     let yearToday = new Date().getFullYear();
     const legalAge = 18;
 
-    if (yearToday - getDateYear <= legalAge) {
+    if (yearToday - getDateYear < legalAge) {
 
         console.warn('Ask your parent to doing this buddy :', `${yearToday - getDateYear} years`);
 
-    } 
+        return false ;
 
+    } else {
+
+      return true;
+
+    }
+
+  
   }
   
 
@@ -317,35 +342,14 @@ marketingInputs.forEach((marketing)=> {
 
     // Create formdata object to store later
     const formData = new FormData(formTargeted);
-
-    console.log('Données du Form 👉',formData);
+    console.log('Données directes du Formulaire 👉',formData);
 
     //Clone the initial object Form Data to another free Object
-    // let objectDataCopy = Object.assign({},formData);
-
-     let objectDataCopy = {...formData};
-  
-      // => Impossible de copier l'objet, no log available !
-      console.log(objectDataCopy); 
-   
-
-    // Get each values of Form Testing Iteration method
-    // for (const pairs of formData.entries()){
-
-    // }
-
-  
-
-    //Store Datas in localstorage Area
-    // let exportDatas = Array.from(formData);
-    let exportDatas = Array.from(formData);
+     let objectDataCopy = Object.fromEntries(formData); 
 
     const storageFreezeName = 'the-form-count';
-  
-    localStorage.setItem(`${storageFreezeName}`,JSON.stringify(exportDatas));
 
-    // console.log(JSON.parse(localStorage.getItem(`${storageFreezeName}`)));
-
+    localStorage.setItem(`${storageFreezeName}`, JSON.stringify(objectDataCopy));
   }
 
 
