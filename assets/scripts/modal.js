@@ -88,18 +88,26 @@ namesInput.forEach((input)=>{
 
   input.addEventListener('change',(e) =>{
 
-    //Inject Warning Message about the Input Field
+    // Get Data Text on Change
+    let inputData = input.value;
+
+    // Inject Warning Message about the Input Field
     let newWarning = document.createElement('div');
-  
-    if(input.value.length < 2 || input.value == ''){
+
+
+    // Regex Rules with number
+    const regex = new RegExp(`[0-9]`);
+    // const regex = new RegExp(`/[\d@/;:!]/`);
+    
+
+    if(inputData.length < 2 || inputData == '' || regex.test(inputData)){
 
       // Display Infos in Log
       displayInputDataLog(input,'wrong');
 
-
       newWarning.classList.add('debug-input');
-      newWarning.textContent = `❌ "${input.value}" is too short.
-      2 Characters required`;
+      newWarning.textContent = `❌ "${input.value}" is incorrect.
+      2 Characters required / no empty string / no numbers`;
 
       input.closest('.formData').append(newWarning);
 
@@ -111,8 +119,15 @@ namesInput.forEach((input)=>{
 
       input.classList.add('valid');
       
-      let closestWarning = document.querySelector('.formData .debug-input');
-      closestWarning.remove();
+      //Remove all Debeug Input
+      let closestsWarning = document.querySelectorAll('.formData .debug-input');
+      
+      for (var warning of closestsWarning) {
+
+        warning.remove();
+
+      }
+      
 
     }
 
