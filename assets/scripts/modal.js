@@ -57,12 +57,20 @@ modalbodyChilds.forEach((modalChild) => {
 
 
 // Testing Simple click "fake" submiting Form
-const formSubmit = document.getElementById('submiter');
+const formSubmit = document.querySelector('.modal-form');
 
-formSubmit.addEventListener('click',(e)=> {
+formSubmit.addEventListener('submit',(e)=> {
 
   e.preventDefault();
+
+  if (!validateQuantity()) {
+
+    return;
+
+  }
  
+  console.log(e);
+
   getDataInput('.modal-form');
   testSubmit();
 
@@ -86,67 +94,123 @@ const namesInput = document.querySelectorAll('#first,#last');
 
 namesInput.forEach((input)=>{
 
+  // Inject Warning Message about the Input Field
+  let newWarning = document.createElement('div');
+
   input.addEventListener('change',(e) =>{
 
     // Get Data Text on Change
     let inputData = input.value;
 
-    // Inject Warning Message about the Input Field
-    let newWarning = document.createElement('div');
+    // Regex Rules with Testing number inside
+    const regexNames = new RegExp("[0-9]");
 
+    // MiniMal Lenght Required
+    const minimalNamesLength = 3;
 
-    // Regex Rules with number
-    const regex = new RegExp(`[0-9]`);
-    // const regex = new RegExp(`/[\d@/;:!]/`);
+    if(regexNames.test(inputData) || inputData.length < minimalNamesLength || inputData === null) {
+
+        // Display Infos in Log
+        displayInputDataLog(input,'wrong');
+  
+        newWarning.classList.add('debug-input');
+        newWarning.textContent = `❌ "${input.value}" is incorrect.
+        2 Characters required / no empty string / no numbers`;
+
+        input.closest('.formData').append(newWarning);
     
-
-    if(inputData.length < 2 || inputData == '' || regex.test(inputData)){
-
-      // Display Infos in Log
-      displayInputDataLog(input,'wrong');
-
-      newWarning.classList.add('debug-input');
-      newWarning.textContent = `❌ "${input.value}" is incorrect.
-      2 Characters required / no empty string / no numbers`;
-
-      input.closest('.formData').append(newWarning);
-
-    
-    } else {
+      } else {
 
       // Display Infos in Log
       displayInputDataLog(input);
-
+  
+      // Display Data On CSS class
       input.classList.add('valid');
       
-      //Remove all Debeug Input
+      // Remove all Debeug Input
       let closestsWarning = document.querySelectorAll('.formData .debug-input');
-      
+
       for (var warning of closestsWarning) {
-
-        warning.remove();
-
+          warning.remove();
       }
-      
-
+    
     }
-
+  
   });
 
 
 });
 
 
+
+// Input Email
+const emailInput = document.querySelector('#email');
+
+// Inject Warning Message about the Input Field
+let newWarning = document.createElement('div');
+
+emailInput.addEventListener('change',(e)=> {
+
+   // Get Data Text on Change
+   let inputData = emailInput.value;
+
+    // Standard Regex found on Web
+    const regexEmail = new RegExp("[A-Za-z0-9\._%+\-]+@[A-Za-z0-9\.\-]+\.[A-Za-z]{2,}");
+
+    // Minimal Length of Email by my Vision : 1 charac in the start, 1 '@', 1 charac between symbol, 1 '.', 2 charac after '.'
+    const minimalEmailLength = 6;
+
+    if(!inputData.match(regexEmail) || inputData.length < minimalEmailLength){
+
+      console.log(regexEmail,inputData,'false');
+
+
+       // Display Infos in Log
+       displayInputDataLog(emailInput,'wrong');
+
+       newWarning.classList.add('debug-input');
+       newWarning.textContent = `❌ "${emailInput.value}" is incorrect Email.
+      Special Characters missing // Too Short `;
+ 
+      emailInput.closest('.formData').append(newWarning);
+
+    } else {
+
+      // Display Infos in Log
+      displayInputDataLog(emailInput);
+
+      // Display Data On CSS class
+      emailInput.classList.add('valid');
+      
+      //Remove all Debeug Input
+      let closestsWarning = document.querySelectorAll('.formData .debug-input');
+      
+      for (var warning of closestsWarning) {
+        warning.remove();
+      }
+
+    }
+
+});
+
+
+
 // Input Quantity Competitions
 const quantityInput = document.querySelector('#quantity');
 
-quantityInput.addEventListener('change',(e) => {
+quantityInput.addEventListener('change', validateQuantity);
+
+function validateQuantity(){
+
+  let result = true;
 
   if (isNaN(quantityInput.value) || quantityInput.value == "") {
 
     // Display Infos in Log
     displayInputDataLog(quantityInput,'wrong');
     quantityInput.classList.toggle('valid');
+
+    result = false;
 
   } else {
 
@@ -155,7 +219,9 @@ quantityInput.addEventListener('change',(e) => {
       
   }
 
-});
+  return result;
+
+}
 
 // Input Birthdate 
 const birthdateInput = document.querySelector('#birthdate');
@@ -168,7 +234,7 @@ birthdateInput.addEventListener('change',(e) => {
   birthdateDatasMonth = birthdateDatas.getMonth();
   birthdateDatasDay = birthdateDatas.getDay();
 
-  console.log(isLegal(birthdateDatasYear));
+  // console.log(isLegal(birthdateDatasYear));
 
 
   if (isLegal(birthdateDatasYear)) {
@@ -183,27 +249,34 @@ birthdateInput.addEventListener('change',(e) => {
 
   }
 
-  
 });
+
+
 
 //Inputs Location Radio
 const locationInputs = document.querySelectorAll(`input[name='location']`);
 
 locationInputs.forEach((location) => {
 
+  //Inject Warning Message about the Input Field
+  let newWarning = document.createElement('div');
+
   location.addEventListener('change',(e) => {
     
     if (location.checked) {
 
-      console.log(location.value,'=> is checked');
+      // Display Infos in Log
+      displayInputDataLog(location);
+
+      // console.log(location.value,'=> is checked');
+
+      // Display Data On CSS class
       location.classList.add('valid');
 
     } else {
-
-      //Inject Warning Message about the Input Field
-      let newWarning = document.createElement('div');
-
+      // Display Data On CSS class
       newWarning.classList.add('checked');
+      
       newWarning.textContent = `❌ "${location.value}" is not correct`;
 
       location.closest('.formData').append(newWarning);
@@ -239,13 +312,24 @@ marketingInputs.forEach((marketing)=> {
 
     } else {
 
-      console.log(`simple input checkbox available/ not required`);
+      console.log(`input checkbox checked but not required`);
 
     }
  
   });
 
 });
+
+
+
+
+
+
+
+
+
+
+
 
 
 // FUNCTIONS
