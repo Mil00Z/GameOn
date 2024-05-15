@@ -57,7 +57,8 @@ modalbodyChilds.forEach((modalChild) => {
 
 
 // Testing Simple click "fake" submiting Form
-const formSubmit = document.querySelector('.modal-form');
+const elementSubmiter = '.modal-form';
+const formSubmit = document.querySelector(`${elementSubmiter}`);
 
 formSubmit.addEventListener('submit',(e)=> {
 
@@ -71,16 +72,16 @@ formSubmit.addEventListener('submit',(e)=> {
  
   console.log(e);
 
-  getDataInput('.modal-form');
+  getDataInput(`${elementSubmiter}`);
   testSubmit();
 
   const getValidInputs = document.body.querySelectorAll('.valid');
 
   // Quick Dumb Condition to check number of input 'valid' with cssClass
-  if (getValidInputs.length > 3) {
+  if (getValidInputs.length > 5) {
 
     // Fade In Sucess
-    e.target.closest('.modal-form').classList.toggle('sucess');
+    e.target.closest(`${elementSubmiter}`).classList.toggle('sucess');
   
     document.body.querySelector('.modal-message').classList.toggle('on');
 
@@ -450,6 +451,13 @@ marketingInputs.forEach((marketing)=> {
 
     localStorage.setItem(`${storageFreezeName}`, JSON.stringify(objectDataCopy));
   }
+
+  // Proof of Datas Submission after Submission
+  window.addEventListener('load', (e) => {
+    
+      console.table(localStorage.getItem('the-form-count'));
+
+  });
 
 
 
