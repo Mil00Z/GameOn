@@ -312,8 +312,10 @@
 
     .hero-section > .btn-signup {
       display: block;
-      margin: 32px auto 10px;
-      padding: 12px 35px;
+      margin: 30px auto 10px;
+      padding: 10px 40px;
+      font-size:1rem;
+      font-weight:var(--weight-med);
     }
 
     .copyrights {
@@ -382,6 +384,10 @@
       text-align: left;
     }
 
+    .hero-section {
+      margin-bottom:10px;
+    }
+
     .hero-content {
       display: flex;
       flex-direction: column;
@@ -401,6 +407,11 @@
 
     .footer {
       align-self: center;
+      margin:0;
+    }
+
+    .copyrights{
+      margin-top:0;
     }
 
 
