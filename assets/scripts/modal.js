@@ -57,31 +57,36 @@ modalbodyChilds.forEach((modalChild) => {
 
 
 // Testing Simple click "fake" submiting Form
-const elementSubmiter = '.modal-form';
-const formSubmit = document.querySelector(`${elementSubmiter}`);
+const elementTarget = '.modal-form';
+const formSubmit = document.querySelector(`${elementTarget}`);
 
 formSubmit.addEventListener('submit',(e)=> {
 
   e.preventDefault();
 
-  if (!validateQuantity() || !validateBirthday() || !validateNames() || !validateEmail() || !validateLocation() || !validateLegals()) {
+  if ( !validateNames() ||  !validateEmail() || !validateBirthday() || !validateQuantity()  || !validateLocation() || !validateLegals()) {
 
     return;
 
-  } 
+  } else {
+    
+    testSubmit();
+  
+  }
+
+  // Get Datas in Anyway  
+  getDataInput(`${elementTarget}`);
  
-  console.log(e.target);
 
-  getDataInput(`${elementSubmiter}`);
-  // testSubmit();
-
-  const getValidInputs = document.body.querySelectorAll('.valid');
 
   // Quick Dumb Condition to check number of input 'valid' with cssClass
-  if (getValidInputs.length > 5) {
+  const getValidInputs = document.body.querySelectorAll('.valid');
+  // console.log(getValidInputs);
+  
+  if (getValidInputs.length > 7) {
 
     // Fade In Sucess
-    e.target.closest(`${elementSubmiter}`).classList.toggle('sucess');
+    formSubmit.classList.toggle('sucess');
   
     document.body.querySelector('.modal-message').classList.toggle('on');
 
@@ -247,7 +252,7 @@ marketingInputs.forEach((marketing)=> {
 
     }
 
-  
+
   }
   
   function displayInputDataLog(inputElement,state){
@@ -307,7 +312,7 @@ marketingInputs.forEach((marketing)=> {
     let result;
   
       // Get Data Text on Change
-      let inputData = inputElement.value;
+      let inputData = inputElement?.value;
   
       // Regex Rules with Testing number inside
       const regexNames = new RegExp("[0-9]");
@@ -315,7 +320,7 @@ marketingInputs.forEach((marketing)=> {
       // MiniMal Length Required
       const minimalNamesLength = 3;
   
-      if(regexNames.test(inputData) || inputData.length < minimalNamesLength || inputData === null) {
+      if(regexNames.test(inputData) || inputData.length < minimalNamesLength || inputData === undefined ) {
   
           // Display Infos in Log
           displayInputDataLog(inputElement,'wrong');
@@ -354,7 +359,7 @@ marketingInputs.forEach((marketing)=> {
     let result;
 
     // Get Data Text on Change
-    let inputData = inputElement.value;
+    let inputData = inputElement?.value;
   
     // Standard Regex found on Web
     const regexEmail = new RegExp("[A-Za-z0-9\._%+\-]+@[A-Za-z0-9\.\-]+\.[A-Za-z]{2,}");
@@ -401,8 +406,8 @@ marketingInputs.forEach((marketing)=> {
   function validateQuantity(){
 
     let result;
-  
-    if (isNaN(quantityInput.value) || quantityInput.value == "") {
+
+    if (isNaN(quantityInput.value) || quantityInput.value === "") {
   
       // Display Infos in Log
       displayInputDataLog(quantityInput,'wrong');
@@ -427,12 +432,20 @@ marketingInputs.forEach((marketing)=> {
 
     let result;
 
-    let birthdateDatas = birthdateInput.valueAsDate;
-  
-    birthdateDatasYear = birthdateDatas.getFullYear();
-    birthdateDatasMonth = birthdateDatas.getMonth();
-    birthdateDatasDay = birthdateDatas.getDay();
-  
+    let birthdateDatas = birthdateInput?.valueAsDate;
+
+    if (birthdateDatas !== null){
+
+      birthdateDatasYear = birthdateDatas.getFullYear();
+      // birthdateDatasYear = birthdateDatas?.getFullYear();
+
+      birthdateDatasMonth = birthdateDatas.getMonth();
+      // birthdateDatasMonth = birthdateDatas?.getMonth();
+
+      birthdateDatasDay = birthdateDatas.getDay();
+      // birthdateDatasDay = birthdateDatas?.getDay();
+
+
       if (isLegal(birthdateDatasYear)) {
   
         birthdateInput.classList.add('valid');
@@ -440,7 +453,6 @@ marketingInputs.forEach((marketing)=> {
   
         result = true;
         
-  
       } else {
   
         birthdateInput.classList.add('invalid');
@@ -449,9 +461,15 @@ marketingInputs.forEach((marketing)=> {
         result = false;
   
       }
+
+    } else {
+
+      result = false;
+    }
   
      return result;
   }
+
 
   function validateLocation(inputElement,inputWarning) {
 
