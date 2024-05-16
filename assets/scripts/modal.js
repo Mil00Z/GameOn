@@ -177,14 +177,13 @@ marketingInputs.forEach((marketing)=> {
 
 });
 
+const burgerIcon = document.querySelector('.main-navbar .icon');
 
+burgerIcon.addEventListener('click',(e)=>{
 
+  editNav('myTopnav');
 
-
-
-
-
-
+});
 
 
 
@@ -200,12 +199,20 @@ marketingInputs.forEach((marketing)=> {
 
   // Edit Nav
   function editNav(navItem) {
-    var x = document.getElementById(`${navitem}`);
-    if (x.className === "topnav") {
-      x.className += " responsive";
+    
+    let iconMenu = document.getElementById(`${navItem}`);
+    console.log(iconMenu);
+
+    if (iconMenu.matches('.topnav')) {
+      
+      iconMenu.classList.toggle('responsive');
+
     } else {
-      x.className = "topnav";
+
+      iconMenu.className = "topnav";
+
     }
+
   }
 
   // Modal Display
