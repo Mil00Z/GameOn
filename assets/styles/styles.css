@@ -266,11 +266,19 @@
 
   /* RESPONSIVE */
 
+  
+
   @media screen and (max-width: 800px) {
+
+    .topnav {
+      --gap:0;
+      flex-direction: row;
+    }
 
     .hero-section {
       display: block;
       box-shadow: unset;
+      max-height:unset;
     }
 
     .hero-content {
@@ -299,7 +307,7 @@
 
     .hero-img img {
       --radius:10px;
-      margin-top: 40px;
+      margin-top: 30px;
     }
 
     .hero-section > .btn-signup {
@@ -312,6 +320,23 @@
       margin-top: 50px;
       text-align: center;
     }
+  }
+
+
+  /* On Tablet / near Desktop Size */
+  @media screen and (min-width:769px) and (max-width:980px) {
+
+    .topnav {
+      --gap:2rem;
+      flex-direction: column;
+      row-gap:var(--gap);
+    }
+
+    .hero-headline {
+      font-size: 2.5rem;
+      font-weight: var(--weight-med);
+    }
+
   }
 
   @media screen and (max-width: 768px) {
@@ -338,6 +363,7 @@
 
     .topnav a.icon {
       display: block;
+      margin:0;
     }
 
     .topnav.responsive {
