@@ -57,24 +57,48 @@ modalbodyChilds.forEach((modalChild) => {
 
 
 // Testing Simple click "fake" submiting Form
-const formSubmit = document.getElementById('submiter');
+const elementTarget = '.modal-form';
+const formSubmit = document.querySelector(`${elementTarget}`);
 
-formSubmit.addEventListener('click',(e)=> {
+formSubmit.addEventListener('submit',(e)=> {
 
   e.preventDefault();
- 
-  getDataInput('.modal-form');
-  testSubmit();
 
-  const getValidInputs = document.body.querySelectorAll('.valid');
+  if (!validateNames(document.querySelector('#first')) | !validateNames(document.querySelector('#last')) | !validateEmail(emailInput) | !validateBirthday(birthdateInput) | !validateQuantity(quantityInput) | !validateLegals(document.querySelector('#checkbox1')) ) {
+
+    console.error('Error(s) in Form !');
+
+    return;
+
+  } else {
+    
+    testSubmit();
+
+    //  // Fade In Sucess
+    //  formSubmit.classList.toggle('sucess');
+  
+    //  document.body.querySelector('.modal-message').classList.toggle('on');
+
+  }
+
+  // Get Datas in Anyway  
+  getDataInput(`${elementTarget}`);
+ 
 
   // Quick Dumb Condition to check number of input 'valid' with cssClass
-  if (getValidInputs.length > 3) {
-
-    // Fade In Sucess
-    e.target.closest('.modal-form').classList.toggle('sucess');
+  const getValidInputs = document.body.querySelectorAll('.valid');
   
-    document.body.querySelector('.modal-message').classList.toggle('on');
+  if (getValidInputs.length < 7) {
+
+      throw new Error('Erreure de validation de formulaire');
+    
+  } else {
+
+     // Fade In Sucess
+     formSubmit.classList.toggle('sucess');
+  
+     document.body.querySelector('.modal-message').classList.toggle('on');
+
 
   }
 
@@ -86,117 +110,65 @@ const namesInput = document.querySelectorAll('#first,#last');
 
 namesInput.forEach((input)=>{
 
-  input.addEventListener('change',(e) =>{
+  // Inject Warning Message about the Input Field
+  // let newWarning = document.createElement('div');
 
-    //Inject Warning Message about the Input Field
-    let newWarning = document.createElement('div');
-  
-    if(input.value.length < 2 || input.value == ''){
+  input.addEventListener('change', (e)=> {
 
-      // Display Infos in Log
-      displayInputDataLog(input,'wrong');
-
-
-      newWarning.classList.add('debug-input');
-      newWarning.textContent = `❌ "${input.value}" is too short.
-      2 Characters required`;
-
-      input.closest('.formData').append(newWarning);
-
-    
-    } else {
-
-      // Display Infos in Log
-      displayInputDataLog(input);
-
-      input.classList.add('valid');
-      
-      let closestWarning = document.querySelector('.formData .debug-input');
-      closestWarning.remove();
-
-    }
+    validateNames(input);
 
   });
 
+});
+
+
+
+// Input Email
+const emailInput = document.querySelector('#email');
+
+// Inject Warning Message about the Input Field
+// let newWarning = document.createElement('div');
+
+emailInput.addEventListener('change',(e)=> {
+
+  validateEmail(e.target);
 
 });
+
 
 
 // Input Quantity Competitions
 const quantityInput = document.querySelector('#quantity');
+quantityInput.addEventListener('change', (e)=> {
 
-quantityInput.addEventListener('change',(e) => {
-
-  if (isNaN(quantityInput.value) || quantityInput.value == "") {
-
-    // Display Infos in Log
-    displayInputDataLog(quantityInput,'wrong');
-    quantityInput.classList.toggle('valid');
-
-  } else {
-
-      displayInputDataLog(quantityInput);
-      quantityInput.classList.add('valid');
-      
-  }
+  validateQuantity(e.target)
 
 });
+
 
 // Input Birthdate 
 const birthdateInput = document.querySelector('#birthdate');
+birthdateInput.addEventListener('change', (e)=> {
 
-birthdateInput.addEventListener('change',(e) => {
+  validateBirthday(e.target);
 
-  let birthdateDatas = birthdateInput.valueAsDate;
-
-  birthdateDatasYear = birthdateDatas.getFullYear();
-  birthdateDatasMonth = birthdateDatas.getMonth();
-  birthdateDatasDay = birthdateDatas.getDay();
-
-  console.log(isLegal(birthdateDatasYear));
-
-
-  if (isLegal(birthdateDatasYear)) {
-
-    birthdateInput.classList.add('valid');
-    birthdateInput.classList.remove('invalid');
-
-  } else {
-
-    birthdateInput.classList.add('invalid');
-    birthdateInput.classList.remove('valid');
-
-  }
-
-  
 });
+
+
 
 //Inputs Location Radio
 const locationInputs = document.querySelectorAll(`input[name='location']`);
 
 locationInputs.forEach((location) => {
 
+  //Inject Warning Message about the Input Field
+  let newWarning = document.createElement('div');
+
   location.addEventListener('change',(e) => {
     
-    if (location.checked) {
-
-      console.log(location.value,'=> is checked');
-      location.classList.add('valid');
-
-    } else {
-
-      //Inject Warning Message about the Input Field
-      let newWarning = document.createElement('div');
-
-      newWarning.classList.add('checked');
-      newWarning.textContent = `❌ "${location.value}" is not correct`;
-
-      location.closest('.formData').append(newWarning);
-
-    }
+    validateLocation(location);
     
   });
-
 
 });
 
@@ -209,28 +181,21 @@ marketingInputs.forEach((marketing)=> {
 
   marketing.addEventListener('change',(e) => {
 
-  
-    // Checking if Current is the Required One
-    if (marketing.getAttribute('id') === requiredMarketingInput){
-
-        // Checking if Current is Checked
-        if (!marketing.checked) {
-      
-          console.error(`this input is required !`);
-          
-        } else {
-          marketing.classList.add('valid');
-        }
-
-    } else {
-
-      console.log(`simple input checkbox available/ not required`);
-
-    }
+    validateLegals(marketing);
  
   });
 
 });
+
+const burgerIcon = document.querySelector('.main-navbar .icon');
+
+burgerIcon.addEventListener('click',(e)=>{
+
+  editNav('myTopnav');
+
+});
+
+
 
 
 // FUNCTIONS
@@ -244,12 +209,20 @@ marketingInputs.forEach((marketing)=> {
 
   // Edit Nav
   function editNav(navItem) {
-    var x = document.getElementById(`${navitem}`);
-    if (x.className === "topnav") {
-      x.className += " responsive";
+    
+    let iconMenu = document.getElementById(`${navItem}`);
+    console.log(iconMenu);
+
+    if (iconMenu.matches('.topnav')) {
+      
+      iconMenu.classList.toggle('responsive');
+
     } else {
-      x.className = "topnav";
+
+      iconMenu.className = "topnav";
+
     }
+
   }
 
   // Modal Display
@@ -286,7 +259,7 @@ marketingInputs.forEach((marketing)=> {
 
     if (yearToday - getDateYear < legalAge) {
 
-        console.warn('Ask your parent to doing this buddy :', `${yearToday - getDateYear} years`);
+        // console.warn('Ask your parent to doing this buddy :', `${yearToday - getDateYear} years`);
 
         return false ;
 
@@ -296,10 +269,9 @@ marketingInputs.forEach((marketing)=> {
 
     }
 
-  
+
   }
   
-
   function displayInputDataLog(inputElement,state){
 
     if  (state == 'wrong') {
@@ -315,8 +287,6 @@ marketingInputs.forEach((marketing)=> {
 
 
   function testSubmit() {
-
-    event.preventDefault();
 
     const box = document.createElement("div");
 
@@ -351,6 +321,264 @@ marketingInputs.forEach((marketing)=> {
 
     localStorage.setItem(`${storageFreezeName}`, JSON.stringify(objectDataCopy));
   }
+
+  // Logical Fonction testing
+
+  function validateNames(inputElement){
+
+    //Inject Warning Message about the Input Field
+    let newWarning = document.createElement('div');
+
+      // Get Data Text on Change
+      let inputData = inputElement?.value;
+  
+      // Regex Rules with Testing number inside
+      const regexNames = new RegExp("[0-9]");
+  
+      // MiniMal Length Required
+      const minimalNamesLength = 2;
+  
+      if(regexNames.test(inputData) || inputData.length < minimalNamesLength || inputData === undefined ) {
+
+          // Display Infos in Log
+          displayInputDataLog(inputElement,'wrong');
+  
+          newWarning.classList.add('debug-input');
+          newWarning.textContent = `❌ " ${inputElement.value} " is incorrect.
+          2 Characters required / no empty string / no numbers`;
+  
+          //Check si l'element existe déjà, pas de nouveau message
+          if(!inputElement.parentElement.querySelector('.debug-input')) {
+
+            inputElement.closest('.formData').append(newWarning);
+
+          }
+          
+          return false;
+    
+        } else {
+  
+        // Display Infos in Log
+        displayInputDataLog(inputElement);
+    
+        // Display Data On CSS class
+        inputElement.classList.add('valid');
+        
+        // Remove all Debeug Input
+        let closestsWarning = document.querySelectorAll('.formData .debug-input');
+  
+        for (var warner of closestsWarning) {
+            warner.remove();
+        }
+  
+        return true 
+      }
+  
+      
+  }
+
+  function validateEmail(inputElement) {
+
+    //Inject Warning Message about the Input Field
+    let newWarning = document.createElement('div');
+
+    // Get Data Text on Change
+    let inputData = inputElement?.value;
+  
+    // Standard Regex found on Web
+    const regexEmail = new RegExp("[A-Za-z0-9\._%+\-]+@[A-Za-z0-9\.\-]+\.[A-Za-z]{2,}");
+  
+    // Minimal Length of Email by my Vision : 1 charac in the start, 1 '@', 1 charac between symbol, 1 '.', 2 charac after '.'
+    const minimalEmailLength = 6;
+  
+    if(!inputData.match(regexEmail) || inputData.length < minimalEmailLength){
+  
+       // Display Infos in Log
+       displayInputDataLog(inputElement,'wrong');
+  
+       newWarning.classList.add('debug-input');
+       newWarning.textContent = `❌ "${inputElement.value}" is incorrect Email.
+      Special Characters is missing // too short entry `;
+  
+      inputElement.closest('.formData').append(newWarning);
+
+      return false;
+  
+    } else {
+  
+      // Display Infos in Log
+      displayInputDataLog(inputElement);
+  
+      // Display Data On CSS class
+      inputElement.classList.add('valid');
+      
+      //Remove all Debeug Input
+      let closestsWarning = document.querySelectorAll('.formData .debug-input');
+      
+      for (var warner of closestsWarning) {
+        warner.remove();
+      }
+
+      return true;
+  
+    }
+
+  }
+
+
+  function validateQuantity(inputElement) {
+
+    if (isNaN(quantityInput.value) || quantityInput.value === "") {
+
+    //Inject Warning Message about the Input Field
+    let newWarning = document.createElement('div');
+  
+      // Display Infos in Log
+      displayInputDataLog(quantityInput,'wrong');
+      quantityInput.classList.toggle('valid');
+
+     
+      newWarning.classList.add('debug-input');
+      newWarning.textContent = `❌ "${inputElement.value}" is incorrect number of participation.`;
+
+    inputElement.closest('.formData').append(newWarning);
+
+  
+      return false;
+  
+    } else {
+  
+        displayInputDataLog(quantityInput);
+        quantityInput.classList.add('valid');
+  
+        return true;
+        
+    }
+  
+  }
+
+
+  function validateBirthday(inputElement) {
+
+    //Inject Warning Message about the Input Field
+    let newWarning = document.createElement('div');
+
+  
+    let birthdateDatas = birthdateInput?.valueAsDate;
+
+    if (birthdateDatas !== null){
+
+      birthdateDatasYear = birthdateDatas.getFullYear();
+      birthdateDatasMonth = birthdateDatas.getMonth();
+      birthdateDatasDay = birthdateDatas.getDay();
+    
+      if (isLegal(birthdateDatasYear)) {
+  
+        birthdateInput.classList.add('valid');
+        birthdateInput.classList.remove('invalid');
+  
+        return true;
+        
+      } else {
+
+        // Display Infos in Log
+       displayInputDataLog(birthdateInput,'wrong');
+  
+       newWarning.classList.add('debug-input');
+       newWarning.textContent = `❌ "${inputElement.value}" is incorrect Date entry : you're too Young.`;
+  
+        inputElement.closest('.formData').append(newWarning);
+  
+        birthdateInput.classList.add('invalid');
+        birthdateInput.classList.remove('valid');
+  
+        return false;
+  
+      }
+
+    } else {
+       // Display Infos in Log
+       displayInputDataLog(birthdateInput,'wrong');
+  
+       newWarning.classList.add('debug-input');
+       newWarning.textContent = `❌ "${inputElement.value}" is incorrect Date entry : you're too Young.`;
+  
+      inputElement.closest('.formData').append(newWarning);
+
+      return false;
+    }
+  
+  }
+
+
+  function validateLocation(inputElement) {
+
+    //Inject Warning Message about the Input Field
+    let newWarning = document.createElement('div');
+
+    if (inputElement.checked) {
+
+      // Display Infos in Log
+      displayInputDataLog(inputElement);
+
+      // console.log(location.value,'=> is checked');
+
+      // Display Data On CSS class
+      inputElement.classList.add('valid');
+
+      return true;
+
+    } else {
+      // Display Data On CSS class
+      newWarning.classList.add('checked');
+      
+      newWarning.textContent = `❌ "${inputElement.value}" is not correct`;
+
+      inputElement.closest('.formData').append(newWarning);
+
+      return false;
+
+    }
+
+  }
+
+  function validateLegals(inputElement) {
+
+
+      // Checking if Current is the Required One
+      if (inputElement.getAttribute('id') === requiredMarketingInput){
+
+        // Checking if Current is Checked
+        if (!inputElement.checked) {
+      
+          console.error(`this input is required !`);
+
+          return false;
+          
+        } else {
+          inputElement.classList.add('valid');
+
+          return true;
+        }
+
+    } else {
+
+      console.log(`input checkbox checked but not required`);
+
+      return true;
+
+    }
+
+
+  }
+
+
+  // Proof of Datas Submission after Submission
+  window.addEventListener('load', (e) => {
+    
+      console.table(localStorage.getItem('the-form-count'));
+
+  });
 
 
 
