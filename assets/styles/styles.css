@@ -60,12 +60,13 @@
   }
 
   .debug-input {
-    outline: 1px dashed currentColor;
-    padding:2px 10px;
+    /* outline: 1px dashed currentColor; */
+    padding:4px 10px;
     margin-block:8px;
     font-size:.8rem;
     background: var(--primary-color);
     color: var(--white-color);
+    text-shadow: 2px 2px var(--black-color);
     transition: all .2s ease-in-out;
   }
  
