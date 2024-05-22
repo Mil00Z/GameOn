@@ -304,6 +304,7 @@ burgerIcon.addEventListener('click',(e)=>{
 
   }
 
+
  // Getter/Setter Fonction for FormData
   function getDataInput(elementTargeted){
 
@@ -320,6 +321,18 @@ burgerIcon.addEventListener('click',(e)=>{
     const storageFreezeName = 'the-form-count';
 
     localStorage.setItem(`${storageFreezeName}`, JSON.stringify(objectDataCopy));
+  }
+
+
+  // Testing Function for WarningMessage is already in closest scope
+  function isWarning(inputElement,warningElement,warningClass='.debug-input',formScope ='.formData') {
+
+    if(!inputElement.parentElement.querySelector(`${warningClass}`)) {
+
+        inputElement.closest(`${formScope}`).append(warningElement);
+
+    }
+
   }
 
 
@@ -346,13 +359,9 @@ burgerIcon.addEventListener('click',(e)=>{
           newWarning.classList.add('debug-input');
           newWarning.textContent = `❌ " ${inputElement.value} " is incorrect.
           2 Characters required / no empty string / no numbers`;
-  
-          //Check si l'element existe déjà, pas de nouveau message
-          if(!inputElement.parentElement.querySelector('.debug-input')) {
 
-            inputElement.closest('.formData').append(newWarning);
-
-          }
+          //Checking if a Warning is Already on the closest Scope of Data
+          isWarning(inputElement,newWarning);
           
           return false;
     
@@ -397,10 +406,12 @@ burgerIcon.addEventListener('click',(e)=>{
        displayInputDataLog(inputElement,'wrong');
   
        newWarning.classList.add('debug-input');
-       newWarning.textContent = `❌ "${inputElement.value}" is incorrect Email.
+       newWarning.textContent = `❌ " ${inputElement.value} " is incorrect Email.
       Special Characters is missing // too short entry `;
-  
-      inputElement.closest('.formData').append(newWarning);
+
+      
+      //Checking if is Warning Already on the closest Scope 
+      isWarning(inputElement,newWarning);
 
       return false;
   
@@ -439,11 +450,11 @@ burgerIcon.addEventListener('click',(e)=>{
 
      
       newWarning.classList.add('debug-input');
-      newWarning.textContent = `❌ "${inputElement.value}" is incorrect number of participation.`;
+      newWarning.textContent = `❌ " ${inputElement.value} " is incorrect number of participation.`;
 
-    inputElement.closest('.formData').append(newWarning);
+      //Checking if is Warning Already on the closest Scope 
+      isWarning(inputElement,newWarning);
 
-  
       return false;
   
     } else {
@@ -485,13 +496,15 @@ burgerIcon.addEventListener('click',(e)=>{
        displayInputDataLog(birthdateInput,'wrong');
   
        newWarning.classList.add('debug-input');
-       newWarning.textContent = `❌ "${inputElement.value}" is incorrect Date entry : you're too Young.`;
-  
-        inputElement.closest('.formData').append(newWarning);
+       newWarning.textContent = `❌ " ${inputElement.value} " is incorrect Date entry : you're too Young.`;
+
+         //Checking if is Warning Already on the closest Scope 
+         isWarning(inputElement,newWarning);
   
         birthdateInput.classList.add('invalid');
         birthdateInput.classList.remove('valid');
-  
+
+
         return false;
   
       }
@@ -502,9 +515,11 @@ burgerIcon.addEventListener('click',(e)=>{
   
        newWarning.classList.add('debug-input');
        newWarning.textContent = `❌ "${inputElement.value}" is incorrect Date entry : you're too Young.`;
-  
-      inputElement.closest('.formData').append(newWarning);
 
+
+       //Checking if is Warning Already on the closest Scope 
+       isWarning(inputElement,newWarning);
+  
       return false;
     }
   
@@ -531,10 +546,11 @@ burgerIcon.addEventListener('click',(e)=>{
     } else {
       // Display Data On CSS class
       newWarning.classList.add('checked');
-      
+
       newWarning.textContent = `❌ "${inputElement.value}" is not correct`;
 
-      inputElement.closest('.formData').append(newWarning);
+      //Checking if is Warning Already on the closest Scope 
+      isWarning(inputElement,warningElement);
 
       return false;
 
