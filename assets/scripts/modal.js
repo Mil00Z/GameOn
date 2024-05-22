@@ -71,19 +71,20 @@ formSubmit.addEventListener('submit',(e)=> {
     return;
 
   } else {
-    
-    testSubmit();
 
-    //  // Fade In Sucess
-    //  formSubmit.classList.toggle('sucess');
+    // Get Datas
+    getDataInput(`${elementTarget}`);
+ 
+    OkSubmit();
+
+     // Fade In Sucess
+     e.target.classList.toggle('sucess');
   
-    //  document.body.querySelector('.modal-message').classList.toggle('on');
+     document.body.querySelector('.modal-message').classList.toggle('on');
 
   }
 
-  // Get Datas in Anyway  
-  getDataInput(`${elementTarget}`);
- 
+  
 
   // Quick Dumb Condition to check number of input 'valid' with cssClass
   const getValidInputs = document.body.querySelectorAll('.valid');
@@ -286,7 +287,7 @@ burgerIcon.addEventListener('click',(e)=>{
   }
 
 
-  function testSubmit() {
+  function OkSubmit() {
 
     const box = document.createElement("div");
 
@@ -301,11 +302,9 @@ burgerIcon.addEventListener('click',(e)=>{
     box.textContent = `Form Submitted at: ${timer.getDate()}/${timer.getUTCMonth()}/${timer.getFullYear()} 
     ${timer.getHours()}h${timer.getMinutes()}`;
 
-    console.log(localStorage);
-
   }
 
-
+ // Getter/Setter Fonction for FormData
   function getDataInput(elementTargeted){
 
     const formTargeted = document.querySelector(`${elementTargeted}`);
@@ -317,13 +316,14 @@ burgerIcon.addEventListener('click',(e)=>{
     //Clone the initial object Form Data to another free Object
      let objectDataCopy = Object.fromEntries(formData); 
 
+     //Name the Local Storage Object
     const storageFreezeName = 'the-form-count';
 
     localStorage.setItem(`${storageFreezeName}`, JSON.stringify(objectDataCopy));
   }
 
-  // Logical Fonction testing
 
+  // Logical Fonction testing
   function validateNames(inputElement){
 
     //Inject Warning Message about the Input Field
