@@ -49,7 +49,7 @@ modalbodyChilds.forEach((modalChild) => {
 
   let getClassName = modalChild.getAttribute('class');
 
-  modalChild.dataset.display = getClassName; 
+  modalChild.dataset.fonction = getClassName; 
 
   //Display Childs of the Form Body
   // console.log(modalChild.dataset.display);
@@ -75,7 +75,7 @@ formSubmit.addEventListener('submit',(e)=> {
     // Get Datas
     getDataInput(`${elementTarget}`);
  
-    OkSubmit();
+    // OkSubmit();
 
      // Fade In Sucess
      e.target.classList.toggle('sucess');
@@ -84,35 +84,18 @@ formSubmit.addEventListener('submit',(e)=> {
 
   }
 
-  
-
-  // Quick Dumb Condition to check number of input 'valid' with cssClass
-  const getValidInputs = document.body.querySelectorAll('.valid');
-  
-  if (getValidInputs.length < 7) {
-
-      throw new Error('Erreure de validation de formulaire');
-    
-  } else {
-
-     // Fade In Sucess
-     formSubmit.classList.toggle('sucess');
-  
-     document.body.querySelector('.modal-message').classList.toggle('on');
-
-
-  }
+      // isValidate('.valid',4);
 
 });
+
+  
+
+ 
 
 
 //Inputs Names : Testing group of same datas Text
 const namesInput = document.querySelectorAll('#first,#last');
-
 namesInput.forEach((input)=>{
-
-  // Inject Warning Message about the Input Field
-  // let newWarning = document.createElement('div');
 
   input.addEventListener('change', (e)=> {
 
@@ -126,10 +109,6 @@ namesInput.forEach((input)=>{
 
 // Input Email
 const emailInput = document.querySelector('#email');
-
-// Inject Warning Message about the Input Field
-// let newWarning = document.createElement('div');
-
 emailInput.addEventListener('change',(e)=> {
 
   validateEmail(e.target);
@@ -147,6 +126,7 @@ quantityInput.addEventListener('change', (e)=> {
 });
 
 
+
 // Input Birthdate 
 const birthdateInput = document.querySelector('#birthdate');
 birthdateInput.addEventListener('change', (e)=> {
@@ -159,7 +139,6 @@ birthdateInput.addEventListener('change', (e)=> {
 
 //Inputs Location Radio
 const locationInputs = document.querySelectorAll(`input[name='location']`);
-
 locationInputs.forEach((location) => {
 
   //Inject Warning Message about the Input Field
@@ -192,7 +171,7 @@ const burgerIcon = document.querySelector('.main-navbar .icon');
 
 burgerIcon.addEventListener('click',(e)=>{
 
-  editNav('myTopnav');
+  toggleNav('myTopnav');
 
 });
 
@@ -208,8 +187,8 @@ burgerIcon.addEventListener('click',(e)=>{
  * @param {string}  wrong
  */
 
-  // Edit Nav
-  function editNav(navItem) {
+  // Toggle Nav
+  function toggleNav(navItem) {
     
     let iconMenu = document.getElementById(`${navItem}`);
     console.log(iconMenu);
@@ -247,12 +226,36 @@ burgerIcon.addEventListener('click',(e)=>{
 
      let modalFlexHeight = e.target.closest(`${target}`).offsetHeight;
 
-    // console.log(modalFlexHeight);
+    console.log(modalFlexHeight);
 
   }
 
+
+  // Simple Testing number of validate Input
+
+  function isValidate(validElements,numberElements) {
+
+  const getValidInputs = document.body.querySelectorAll(`${validElements}`);
+
   
-  //Testing if the Birthdate Year is OK with the LAW (just with year, it's not a perfect calculus)
+    if (getValidInputs.length < numberElements) {
+  
+        throw new Error('Erreure de validation de formulaire');
+      
+    } else {
+  
+       // Fade In Sucess
+       formSubmit.classList.toggle('sucess');
+    
+       document.body.querySelector('.modal-message').classList.toggle('on');
+  
+    }
+  
+ 
+  }
+
+  
+  //Testing if the Birthdate Year is juste older than 18
   function isLegal(getDateYear){
 
     let yearToday = new Date().getFullYear();
