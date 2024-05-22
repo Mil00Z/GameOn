@@ -146,7 +146,7 @@ locationInputs.forEach((location) => {
 
   location.addEventListener('change',(e) => {
     
-    validateLocation(location);
+    validateLocation(e.target);
     
   });
 
@@ -539,21 +539,26 @@ burgerIcon.addEventListener('click',(e)=>{
       // Display Infos in Log
       displayInputDataLog(inputElement);
 
-      // console.log(location.value,'=> is checked');
+      console.log(inputElement.value,'=> is checked');
 
       // Display Data On CSS class
       inputElement.classList.add('valid');
 
+      newWarning.classList.add('debug-input','checked');
+      newWarning.textContent = `🤡 Trouver la solution inverse => déclencher l'alerte au Submit quand 'non coché' `;
+
+      //Checking if is Warning Already on the closest Scope 
+      isWarning(inputElement,newWarning);
+
       return true;
 
     } else {
-      // Display Data On CSS class
-      newWarning.classList.add('checked');
 
+      newWarning.classList.add('debug-input','checked');
       newWarning.textContent = `📌 " ${inputElement.value} " is not correct Location entry : you have to choose one of them`;
 
       //Checking if is Warning Already on the closest Scope 
-      isWarning(inputElement,warningElement);
+      isWarning(inputElement,newWarning);
 
       return false;
 
