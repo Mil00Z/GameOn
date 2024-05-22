@@ -49,7 +49,7 @@ modalbodyChilds.forEach((modalChild) => {
 
   let getClassName = modalChild.getAttribute('class');
 
-  modalChild.dataset.display = getClassName; 
+  modalChild.dataset.fonction = getClassName; 
 
   //Display Childs of the Form Body
   // console.log(modalChild.dataset.display);
@@ -71,47 +71,31 @@ formSubmit.addEventListener('submit',(e)=> {
     return;
 
   } else {
-    
-    testSubmit();
 
-    //  // Fade In Sucess
-    //  formSubmit.classList.toggle('sucess');
-  
-    //  document.body.querySelector('.modal-message').classList.toggle('on');
-
-  }
-
-  // Get Datas in Anyway  
-  getDataInput(`${elementTarget}`);
+    // Get Datas
+    getDataInput(`${elementTarget}`);
  
-
-  // Quick Dumb Condition to check number of input 'valid' with cssClass
-  const getValidInputs = document.body.querySelectorAll('.valid');
-  
-  if (getValidInputs.length < 7) {
-
-      throw new Error('Erreure de validation de formulaire');
-    
-  } else {
+    // OkSubmit();
 
      // Fade In Sucess
-     formSubmit.classList.toggle('sucess');
+     e.target.classList.toggle('sucess');
   
      document.body.querySelector('.modal-message').classList.toggle('on');
 
-
   }
 
+      // isValidate('.valid',4);
+
 });
+
+  
+
+ 
 
 
 //Inputs Names : Testing group of same datas Text
 const namesInput = document.querySelectorAll('#first,#last');
-
 namesInput.forEach((input)=>{
-
-  // Inject Warning Message about the Input Field
-  // let newWarning = document.createElement('div');
 
   input.addEventListener('change', (e)=> {
 
@@ -125,10 +109,6 @@ namesInput.forEach((input)=>{
 
 // Input Email
 const emailInput = document.querySelector('#email');
-
-// Inject Warning Message about the Input Field
-// let newWarning = document.createElement('div');
-
 emailInput.addEventListener('change',(e)=> {
 
   validateEmail(e.target);
@@ -146,6 +126,7 @@ quantityInput.addEventListener('change', (e)=> {
 });
 
 
+
 // Input Birthdate 
 const birthdateInput = document.querySelector('#birthdate');
 birthdateInput.addEventListener('change', (e)=> {
@@ -158,7 +139,6 @@ birthdateInput.addEventListener('change', (e)=> {
 
 //Inputs Location Radio
 const locationInputs = document.querySelectorAll(`input[name='location']`);
-
 locationInputs.forEach((location) => {
 
   //Inject Warning Message about the Input Field
@@ -191,7 +171,7 @@ const burgerIcon = document.querySelector('.main-navbar .icon');
 
 burgerIcon.addEventListener('click',(e)=>{
 
-  editNav('myTopnav');
+  toggleNav('myTopnav');
 
 });
 
@@ -207,8 +187,8 @@ burgerIcon.addEventListener('click',(e)=>{
  * @param {string}  wrong
  */
 
-  // Edit Nav
-  function editNav(navItem) {
+  // Toggle Nav
+  function toggleNav(navItem) {
     
     let iconMenu = document.getElementById(`${navItem}`);
     console.log(iconMenu);
@@ -246,12 +226,36 @@ burgerIcon.addEventListener('click',(e)=>{
 
      let modalFlexHeight = e.target.closest(`${target}`).offsetHeight;
 
-    // console.log(modalFlexHeight);
+    console.log(modalFlexHeight);
 
   }
 
+
+  // Simple Testing number of validate Input
+
+  function isValidate(validElements,numberElements) {
+
+  const getValidInputs = document.body.querySelectorAll(`${validElements}`);
+
   
-  //Testing if the Birthdate Year is OK with the LAW (just with year, it's not a perfect calculus)
+    if (getValidInputs.length < numberElements) {
+  
+        throw new Error('Erreure de validation de formulaire');
+      
+    } else {
+  
+       // Fade In Sucess
+       formSubmit.classList.toggle('sucess');
+    
+       document.body.querySelector('.modal-message').classList.toggle('on');
+  
+    }
+  
+ 
+  }
+
+  
+  //Testing if the Birthdate Year is juste older than 18
   function isLegal(getDateYear){
 
     let yearToday = new Date().getFullYear();
@@ -286,7 +290,7 @@ burgerIcon.addEventListener('click',(e)=>{
   }
 
 
-  function testSubmit() {
+  function OkSubmit() {
 
     const box = document.createElement("div");
 
@@ -301,11 +305,10 @@ burgerIcon.addEventListener('click',(e)=>{
     box.textContent = `Form Submitted at: ${timer.getDate()}/${timer.getUTCMonth()}/${timer.getFullYear()} 
     ${timer.getHours()}h${timer.getMinutes()}`;
 
-    console.log(localStorage);
-
   }
 
 
+ // Getter/Setter Fonction for FormData
   function getDataInput(elementTargeted){
 
     const formTargeted = document.querySelector(`${elementTargeted}`);
@@ -317,13 +320,26 @@ burgerIcon.addEventListener('click',(e)=>{
     //Clone the initial object Form Data to another free Object
      let objectDataCopy = Object.fromEntries(formData); 
 
+     //Name the Local Storage Object
     const storageFreezeName = 'the-form-count';
 
     localStorage.setItem(`${storageFreezeName}`, JSON.stringify(objectDataCopy));
   }
 
-  // Logical Fonction testing
 
+  // Testing Function for WarningMessage is already in closest scope
+  function isWarning(inputElement,warningElement,warningClass='.debug-input',formScope ='.formData') {
+
+    if(!inputElement.parentElement.querySelector(`${warningClass}`)) {
+
+        inputElement.closest(`${formScope}`).append(warningElement);
+
+    }
+
+  }
+
+
+  // Logical Fonction testing
   function validateNames(inputElement){
 
     //Inject Warning Message about the Input Field
@@ -346,13 +362,9 @@ burgerIcon.addEventListener('click',(e)=>{
           newWarning.classList.add('debug-input');
           newWarning.textContent = `❌ " ${inputElement.value} " is incorrect.
           2 Characters required / no empty string / no numbers`;
-  
-          //Check si l'element existe déjà, pas de nouveau message
-          if(!inputElement.parentElement.querySelector('.debug-input')) {
 
-            inputElement.closest('.formData').append(newWarning);
-
-          }
+          //Checking if a Warning is Already on the closest Scope of Data
+          isWarning(inputElement,newWarning);
           
           return false;
     
@@ -397,10 +409,12 @@ burgerIcon.addEventListener('click',(e)=>{
        displayInputDataLog(inputElement,'wrong');
   
        newWarning.classList.add('debug-input');
-       newWarning.textContent = `❌ "${inputElement.value}" is incorrect Email.
+       newWarning.textContent = `❌ " ${inputElement.value} " is incorrect Email.
       Special Characters is missing // too short entry `;
-  
-      inputElement.closest('.formData').append(newWarning);
+
+      
+      //Checking if is Warning Already on the closest Scope 
+      isWarning(inputElement,newWarning);
 
       return false;
   
@@ -439,11 +453,11 @@ burgerIcon.addEventListener('click',(e)=>{
 
      
       newWarning.classList.add('debug-input');
-      newWarning.textContent = `❌ "${inputElement.value}" is incorrect number of participation.`;
+      newWarning.textContent = `❌ " ${inputElement.value} " is incorrect number of participation.`;
 
-    inputElement.closest('.formData').append(newWarning);
+      //Checking if is Warning Already on the closest Scope 
+      isWarning(inputElement,newWarning);
 
-  
       return false;
   
     } else {
@@ -485,13 +499,15 @@ burgerIcon.addEventListener('click',(e)=>{
        displayInputDataLog(birthdateInput,'wrong');
   
        newWarning.classList.add('debug-input');
-       newWarning.textContent = `❌ "${inputElement.value}" is incorrect Date entry : you're too Young.`;
-  
-        inputElement.closest('.formData').append(newWarning);
+       newWarning.textContent = `❌ " ${inputElement.value} " is incorrect Date entry : you're too Young.`;
+
+         //Checking if is Warning Already on the closest Scope 
+         isWarning(inputElement,newWarning);
   
         birthdateInput.classList.add('invalid');
         birthdateInput.classList.remove('valid');
-  
+
+
         return false;
   
       }
@@ -502,9 +518,11 @@ burgerIcon.addEventListener('click',(e)=>{
   
        newWarning.classList.add('debug-input');
        newWarning.textContent = `❌ "${inputElement.value}" is incorrect Date entry : you're too Young.`;
-  
-      inputElement.closest('.formData').append(newWarning);
 
+
+       //Checking if is Warning Already on the closest Scope 
+       isWarning(inputElement,newWarning);
+  
       return false;
     }
   
@@ -531,10 +549,11 @@ burgerIcon.addEventListener('click',(e)=>{
     } else {
       // Display Data On CSS class
       newWarning.classList.add('checked');
-      
+
       newWarning.textContent = `❌ "${inputElement.value}" is not correct`;
 
-      inputElement.closest('.formData').append(newWarning);
+      //Checking if is Warning Already on the closest Scope 
+      isWarning(inputElement,warningElement);
 
       return false;
 

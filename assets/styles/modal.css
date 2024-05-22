@@ -319,7 +319,7 @@ input[data-error]::after {
 
 /* 2nd Panel On Modal */
 .modal-message{
-  /* display: none; */
+  display: none;
   flex-direction: column;
   justify-content: center;
   align-items: center;

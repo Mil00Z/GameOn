@@ -60,14 +60,14 @@
   }
 
   .debug-input {
-    /* outline: 1px dashed currentColor; */
-    padding:4px 10px;
-    margin-block:8px;
-    font-size:.8rem;
+    padding:5px 10px;
+    margin-block:4px 8px;
+    font-size:.825rem;
     background: var(--primary-color);
     color: var(--white-color);
-    text-shadow: 2px 2px var(--black-color);
-    transition: all .2s ease-in-out;
+    text-shadow: 2px 1px var(--black-color);
+    border-radius: 5px;
+    transition: all .15s ease-in-out;
   }
  
   p {
