@@ -65,9 +65,12 @@
     font-size:.825rem;
     background: var(--primary-color);
     color: var(--white-color);
-    text-shadow: 2px 1px var(--black-color);
+    text-shadow: 1px 1px 4px var(--black-color);  
     border-radius: 5px;
     transition: all .15s ease-in-out;
+  }
+  .checked {
+    background: var(--success-color);
   }
  
   p {

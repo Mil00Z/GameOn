@@ -146,7 +146,7 @@ locationInputs.forEach((location) => {
 
   location.addEventListener('change',(e) => {
     
-    validateLocation(location);
+    validateLocation(e.target);
     
   });
 
@@ -360,7 +360,7 @@ burgerIcon.addEventListener('click',(e)=>{
           displayInputDataLog(inputElement,'wrong');
   
           newWarning.classList.add('debug-input');
-          newWarning.textContent = `❌ " ${inputElement.value} " is incorrect.
+          newWarning.textContent = `📌 " ${inputElement.value} " is incorrect Names.
           2 Characters required / no empty string / no numbers`;
 
           //Checking if a Warning is Already on the closest Scope of Data
@@ -409,7 +409,7 @@ burgerIcon.addEventListener('click',(e)=>{
        displayInputDataLog(inputElement,'wrong');
   
        newWarning.classList.add('debug-input');
-       newWarning.textContent = `❌ " ${inputElement.value} " is incorrect Email.
+       newWarning.textContent = `📌 " ${inputElement.value} " is incorrect Email.
       Special Characters is missing // too short entry `;
 
       
@@ -453,7 +453,7 @@ burgerIcon.addEventListener('click',(e)=>{
 
      
       newWarning.classList.add('debug-input');
-      newWarning.textContent = `❌ " ${inputElement.value} " is incorrect number of participation.`;
+      newWarning.textContent = `📌 " ${inputElement.value} " is incorrect Number of participation.`;
 
       //Checking if is Warning Already on the closest Scope 
       isWarning(inputElement,newWarning);
@@ -499,7 +499,7 @@ burgerIcon.addEventListener('click',(e)=>{
        displayInputDataLog(birthdateInput,'wrong');
   
        newWarning.classList.add('debug-input');
-       newWarning.textContent = `❌ " ${inputElement.value} " is incorrect Date entry : you're too Young.`;
+       newWarning.textContent = `📌 " ${inputElement.value} " is incorrect Date entry : you're too Young.`;
 
          //Checking if is Warning Already on the closest Scope 
          isWarning(inputElement,newWarning);
@@ -517,7 +517,7 @@ burgerIcon.addEventListener('click',(e)=>{
        displayInputDataLog(birthdateInput,'wrong');
   
        newWarning.classList.add('debug-input');
-       newWarning.textContent = `❌ "${inputElement.value}" is incorrect Date entry : you're too Young.`;
+       newWarning.textContent = `📌 " ${inputElement.value} " is incorrect Date entry : you're too Young.`;
 
 
        //Checking if is Warning Already on the closest Scope 
@@ -539,21 +539,26 @@ burgerIcon.addEventListener('click',(e)=>{
       // Display Infos in Log
       displayInputDataLog(inputElement);
 
-      // console.log(location.value,'=> is checked');
+      console.log(inputElement.value,'=> is checked');
 
       // Display Data On CSS class
       inputElement.classList.add('valid');
 
+      newWarning.classList.add('debug-input','checked');
+      newWarning.textContent = `🤡 Trouver la solution inverse => déclencher l'alerte au Submit quand 'non coché' `;
+
+      //Checking if is Warning Already on the closest Scope 
+      isWarning(inputElement,newWarning);
+
       return true;
 
     } else {
-      // Display Data On CSS class
-      newWarning.classList.add('checked');
 
-      newWarning.textContent = `❌ "${inputElement.value}" is not correct`;
+      newWarning.classList.add('debug-input','checked');
+      newWarning.textContent = `📌 " ${inputElement.value} " is not correct Location entry : you have to choose one of them`;
 
       //Checking if is Warning Already on the closest Scope 
-      isWarning(inputElement,warningElement);
+      isWarning(inputElement,newWarning);
 
       return false;
 
@@ -567,15 +572,25 @@ burgerIcon.addEventListener('click',(e)=>{
       // Checking if Current is the Required One
       if (inputElement.getAttribute('id') === requiredMarketingInput){
 
+        let newWarning = document.createElement('div');
+
         // Checking if Current is Checked
         if (!inputElement.checked) {
+
+          newWarning.classList.add('debug-input');
+          newWarning.textContent = `📌 first checkbox conditions " ${inputElement.getAttribute('name')} " required`;
+
+          isWarning(inputElement,newWarning);
       
           console.error(`this input is required !`);
 
           return false;
           
         } else {
+
           inputElement.classList.add('valid');
+          
+          inputElement.parentNode.lastChild.remove();
 
           return true;
         }
