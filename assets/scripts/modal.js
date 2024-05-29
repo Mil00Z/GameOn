@@ -613,6 +613,11 @@ burgerIcon.addEventListener('click',(e)=>{
       console.table(localStorage.getItem('the-form-count'));
 
   });
+  
+
+  // TODO
+  // Debug Checkbox Validation on Submit in form at the Load
+  // Removed Warning All in One Behavior
 
 
 
