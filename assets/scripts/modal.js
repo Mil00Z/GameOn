@@ -365,7 +365,7 @@ burgerIcon.addEventListener('click',(e)=>{
 
           //Checking if a Warning is Already on the closest Scope of Data
           isWarning(inputElement,newWarning);
-          
+
           return false;
     
         } else {
@@ -375,13 +375,22 @@ burgerIcon.addEventListener('click',(e)=>{
     
         // Display Data On CSS class
         inputElement.classList.add('valid');
-        
-        // Remove all Debeug Input
-        let closestsWarning = document.querySelectorAll('.formData .debug-input');
-  
-        for (var warner of closestsWarning) {
-            warner.remove();
+
+       
+        if(inputElement.parentElement.querySelector(`.debug-input`)) {
+
+          inputElement.parentElement.querySelector(`.debug-input`).remove();
+
         }
+       
+        
+      
+        // Remove all Debeug Input
+        // let closestsWarning = document.querySelectorAll('.formData .debug-input');
+  
+        // for (var warner of closestsWarning) {
+        //     warner.remove();
+        // }
   
         return true 
       }
@@ -425,14 +434,13 @@ burgerIcon.addEventListener('click',(e)=>{
   
       // Display Data On CSS class
       inputElement.classList.add('valid');
-      
-      //Remove all Debeug Input
-      let closestsWarning = document.querySelectorAll('.formData .debug-input');
-      
-      for (var warner of closestsWarning) {
-        warner.remove();
-      }
 
+      if(inputElement.parentElement.querySelector(`.debug-input`)) {
+
+        inputElement.parentElement.querySelector(`.debug-input`).remove();
+
+      }
+     
       return true;
   
     }
@@ -463,7 +471,14 @@ burgerIcon.addEventListener('click',(e)=>{
     } else {
   
         displayInputDataLog(quantityInput);
+
         quantityInput.classList.add('valid');
+
+        if(inputElement.parentElement.querySelector(`.debug-input`)) {
+
+          inputElement.parentElement.querySelector(`.debug-input`).remove();
+  
+        }
   
         return true;
         
@@ -490,6 +505,12 @@ burgerIcon.addEventListener('click',(e)=>{
   
         birthdateInput.classList.add('valid');
         birthdateInput.classList.remove('invalid');
+
+        if(inputElement.parentElement.querySelector(`.debug-input`)) {
+
+          inputElement.parentElement.querySelector(`.debug-input`).remove();
+  
+        }
   
         return true;
         
@@ -617,7 +638,7 @@ burgerIcon.addEventListener('click',(e)=>{
 
   // TODO
   // Debug Checkbox Validation on Submit in form at the Load
-  // Removed Warning All in One Behavior
+
 
 
 
