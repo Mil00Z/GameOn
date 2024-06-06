@@ -42,21 +42,16 @@ if (modalTrigger !== null && modalCloser !== null) {
 // Get some Interactions in Modal
 const modalbodyChilds = document.querySelectorAll('.modal-body > *');
 
-
 modalbodyChilds.forEach((modalChild) => {
-
-  // console.log(modalChild);
 
   let getClassName = modalChild.getAttribute('class');
 
   modalChild.dataset.fonction = getClassName; 
 
-  //Display Childs of the Form Body
-  // console.log(modalChild.dataset.display);
 });
 
 
-// Testing Simple click "fake" submiting Form
+// Submitting Form Test
 const elementTarget = '.modal-form';
 const formSubmit = document.querySelector(`${elementTarget}`);
 
@@ -75,8 +70,6 @@ formSubmit.addEventListener('submit',(e)=> {
     // Get Datas
     getDataInput(`${elementTarget}`);
  
-    // OkSubmit();
-
      // Fade In Sucess
      e.target.classList.toggle('sucess');
   
@@ -84,15 +77,10 @@ formSubmit.addEventListener('submit',(e)=> {
 
   }
 
-      // isValidate('.valid',4);
-
+  
 });
 
   
-
- 
-
-
 //Inputs Names : Testing group of same datas Text
 const namesInput = document.querySelectorAll('#first,#last');
 namesInput.forEach((input)=>{
@@ -117,14 +105,13 @@ emailInput.addEventListener('change',(e)=> {
 
 
 
-// Input Quantity Competitions
+// Input Quantity 
 const quantityInput = document.querySelector('#quantity');
 quantityInput.addEventListener('change', (e)=> {
 
   validateQuantity(e.target)
 
 });
-
 
 
 // Input Birthdate 
@@ -222,17 +209,6 @@ burgerIcon.addEventListener('click',(e)=>{
 
     element.classList.toggle('on');
 
-    // console.log('switch state function');
-
-  }
-
-  
-  function getModalHeight(target){
-
-     let modalFlexHeight = e.target.closest(`${target}`).offsetHeight;
-
-    console.log(modalFlexHeight);
-
   }
 
 
@@ -267,8 +243,6 @@ burgerIcon.addEventListener('click',(e)=>{
     const legalAge = 18;
 
     if (yearToday - getDateYear < legalAge) {
-
-        // console.warn('Ask your parent to doing this buddy :', `${yearToday - getDateYear} years`);
 
         return false ;
 
@@ -388,15 +362,7 @@ burgerIcon.addEventListener('click',(e)=>{
 
         }
        
-        
-      
-        // Remove all Debeug Input
-        // let closestsWarning = document.querySelectorAll('.formData .debug-input');
-  
-        // for (var warner of closestsWarning) {
-        //     warner.remove();
-        // }
-  
+    
         return true 
       }
   
@@ -572,18 +538,6 @@ burgerIcon.addEventListener('click',(e)=>{
         
       }
     
-      // location.addEventListener('change',(e) => {
-
-      //   if (e.target.checked) {
-
-      //     isValidLocation = true;
-
-      //   }
-        
-      //   // validateLocation(e.target);
-        
-      // });
-    
     });
 
 
@@ -593,8 +547,6 @@ burgerIcon.addEventListener('click',(e)=>{
 
       // Display Infos in Log
       displayInputDataLog(inputElement);
-
-      // console.log(inputElement.value,'=> is checked');
 
       // Display Data On CSS class
       inputElement.classList.add('valid');
@@ -672,10 +624,6 @@ burgerIcon.addEventListener('click',(e)=>{
 
   });
   
-
-  // TODO
-  // Debug Checkbox Validation on Submit in form at the Load
-
 
 
 
