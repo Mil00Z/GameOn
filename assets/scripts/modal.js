@@ -133,13 +133,9 @@ locationInputs.forEach((location) => {
 
     const inputElement = e.target;
 
-    if(inputElement.parentElement.querySelector(`.debug-input`)) {
+    validateLocation();
 
-      inputElement.parentElement.querySelector(`.debug-input`).remove();
-
-    }
-    
-    
+  
   });
 
 });
@@ -306,17 +302,6 @@ burgerIcon.addEventListener('click',(e)=>{
   }
 
 
-  // Testing Function for WarningMessage is already in closest scope
-  function isWarning(inputElement,warningElement,warningClass='.debug-input',formScope ='.formData') {
-
-    if(!inputElement.parentElement.querySelector(`${warningClass}`)) {
-
-        inputElement.closest(`${formScope}`).append(warningElement);
-
-    }
-
-  }
-
 
   // Logical Fonction testing
   function validateNames(inputElement){
@@ -343,7 +328,7 @@ burgerIcon.addEventListener('click',(e)=>{
           2 Characters required / no empty string / no numbers`;
 
           //Checking if a Warning is Already on the closest Scope of Data
-          isWarning(inputElement,newWarning);
+          createWarning(inputElement,newWarning);
 
           return false;
     
@@ -355,14 +340,8 @@ burgerIcon.addEventListener('click',(e)=>{
         // Display Data On CSS class
         inputElement.classList.add('valid');
 
+        existWarning(inputElement);
        
-        if(inputElement.parentElement.querySelector(`.debug-input`)) {
-
-          inputElement.parentElement.querySelector(`.debug-input`).remove();
-
-        }
-       
-    
         return true 
       }
   
@@ -394,7 +373,7 @@ burgerIcon.addEventListener('click',(e)=>{
 
       
       //Checking if is Warning Already on the closest Scope 
-      isWarning(inputElement,newWarning);
+      createWarning(inputElement,newWarning);
 
       return false;
   
@@ -406,12 +385,8 @@ burgerIcon.addEventListener('click',(e)=>{
       // Display Data On CSS class
       inputElement.classList.add('valid');
 
-      if(inputElement.parentElement.querySelector(`.debug-input`)) {
+      existWarning(inputElement);
 
-        inputElement.parentElement.querySelector(`.debug-input`).remove();
-
-      }
-     
       return true;
   
     }
@@ -435,7 +410,7 @@ burgerIcon.addEventListener('click',(e)=>{
       newWarning.textContent = `📌 " ${inputElement.value} " is incorrect Number of participation.`;
 
       //Checking if is Warning Already on the closest Scope 
-      isWarning(inputElement,newWarning);
+      createWarning(inputElement,newWarning);
 
       return false;
   
@@ -445,11 +420,7 @@ burgerIcon.addEventListener('click',(e)=>{
 
         quantityInput.classList.add('valid');
 
-        if(inputElement.parentElement.querySelector(`.debug-input`)) {
-
-          inputElement.parentElement.querySelector(`.debug-input`).remove();
-  
-        }
+        existWarning(inputElement);
   
         return true;
         
@@ -477,11 +448,7 @@ burgerIcon.addEventListener('click',(e)=>{
         birthdateInput.classList.add('valid');
         birthdateInput.classList.remove('invalid');
 
-        if(inputElement.parentElement.querySelector(`.debug-input`)) {
-
-          inputElement.parentElement.querySelector(`.debug-input`).remove();
-  
-        }
+        existWarning(inputElement);
   
         return true;
         
@@ -494,10 +461,10 @@ burgerIcon.addEventListener('click',(e)=>{
        newWarning.textContent = `📌 " ${inputElement.value} " is incorrect Date entry : you're too Young.`;
 
          //Checking if is Warning Already on the closest Scope 
-         isWarning(inputElement,newWarning);
+         createWarning(inputElement,newWarning);
   
-        birthdateInput.classList.add('invalid');
-        birthdateInput.classList.remove('valid');
+         birthdateInput.classList.add('invalid');
+         birthdateInput.classList.remove('valid');
 
 
         return false;
@@ -513,7 +480,7 @@ burgerIcon.addEventListener('click',(e)=>{
 
 
        //Checking if is Warning Already on the closest Scope 
-       isWarning(inputElement,newWarning);
+       createWarning(inputElement,newWarning);
   
       return false;
     }
@@ -553,13 +520,9 @@ burgerIcon.addEventListener('click',(e)=>{
 
       newWarning.classList.add('debug-input','checked');
       
-      if(inputElement.parentElement.querySelector(`.debug-input`)) {
+      existWarning(inputElement);
 
-        inputElement.parentElement.querySelector(`.debug-input`).remove();
-
-      }
-
-  
+    
       return true;
 
     } else {
@@ -568,7 +531,7 @@ burgerIcon.addEventListener('click',(e)=>{
       newWarning.textContent = `📌 " Choisis une localisation " is not correct Location entry : you have to choose one of them`;
 
       //Checking if is Warning Already on the closest Scope 
-      isWarning(inputElement,newWarning);
+      createWarning(inputElement,newWarning);
 
       return false;
 
@@ -590,7 +553,7 @@ burgerIcon.addEventListener('click',(e)=>{
           newWarning.classList.add('debug-input');
           newWarning.textContent = `📌 first checkbox conditions " ${inputElement.getAttribute('name')} " required`;
 
-          isWarning(inputElement,newWarning);
+          createWarning(inputElement,newWarning);
       
           console.error(`this input is required !`);
 
@@ -613,6 +576,30 @@ burgerIcon.addEventListener('click',(e)=>{
 
     }
 
+
+  }
+
+
+   // Create WarningMessage if is not already in closest scope
+   function createWarning(targetInput,warningElement,warningClass='.debug-input',formScope ='.formData') {
+
+    if(!targetInput.parentElement.querySelector(`${warningClass}`)) {
+
+        targetInput.closest(`${formScope}`).append(warningElement);
+
+    }
+
+  }
+
+
+ // Testing if Warning already in closest scope
+  function existWarning(targetInput){
+
+    if(targetInput.parentElement.querySelector(`.debug-input`)) {
+
+      targetInput.parentElement.querySelector(`.debug-input`).remove();
+
+    }
 
   }
 
