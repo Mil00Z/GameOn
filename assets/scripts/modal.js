@@ -64,7 +64,7 @@ formSubmit.addEventListener('submit',(e)=> {
 
   e.preventDefault();
 
-  if (!validateNames(document.querySelector('#first')) | !validateNames(document.querySelector('#last')) | !validateEmail(emailInput) | !validateBirthday(birthdateInput) | !validateQuantity(quantityInput) | !validateLegals(document.querySelector('#checkbox1')) ) {
+  if (!validateNames(document.querySelector('#first')) | !validateNames(document.querySelector('#last')) | !validateEmail(emailInput) | !validateBirthday(birthdateInput) | !validateQuantity(quantityInput) | !validateLegals(document.querySelector('#checkbox1')) | !validateLocation() ) {
 
     console.error('Error(s) in Form !');
 
@@ -139,14 +139,19 @@ birthdateInput.addEventListener('change', (e)=> {
 
 //Inputs Location Radio
 const locationInputs = document.querySelectorAll(`input[name='location']`);
+
 locationInputs.forEach((location) => {
 
-  //Inject Warning Message about the Input Field
-  let newWarning = document.createElement('div');
-
   location.addEventListener('change',(e) => {
+
+    const inputElement = e.target;
+
+    if(inputElement.parentElement.querySelector(`.debug-input`)) {
+
+      inputElement.parentElement.querySelector(`.debug-input`).remove();
+
+    }
     
-    validateLocation(e.target);
     
   });
 
@@ -550,33 +555,65 @@ burgerIcon.addEventListener('click',(e)=>{
   }
 
 
-  function validateLocation(inputElement) {
+  let isValidLocation = false;
+
+  function validateLocation() {
+
+    let result = false ;
 
     //Inject Warning Message about the Input Field
     let newWarning = document.createElement('div');
+   
+    locationInputs.forEach((location) => {
 
-    if (inputElement.checked) {
+      if (location.checked) {
+
+        result = true;
+        
+      }
+    
+      // location.addEventListener('change',(e) => {
+
+      //   if (e.target.checked) {
+
+      //     isValidLocation = true;
+
+      //   }
+        
+      //   // validateLocation(e.target);
+        
+      // });
+    
+    });
+
+
+    const inputElement = locationInputs[0];
+
+    if (result == true ) {
 
       // Display Infos in Log
       displayInputDataLog(inputElement);
 
-      console.log(inputElement.value,'=> is checked');
+      // console.log(inputElement.value,'=> is checked');
 
       // Display Data On CSS class
       inputElement.classList.add('valid');
 
       newWarning.classList.add('debug-input','checked');
-      newWarning.textContent = `🤡 Trouver la solution inverse => déclencher l'alerte au Submit quand 'non coché' `;
+      
+      if(inputElement.parentElement.querySelector(`.debug-input`)) {
 
-      //Checking if is Warning Already on the closest Scope 
-      isWarning(inputElement,newWarning);
+        inputElement.parentElement.querySelector(`.debug-input`).remove();
 
+      }
+
+  
       return true;
 
     } else {
 
-      newWarning.classList.add('debug-input','checked');
-      newWarning.textContent = `📌 " ${inputElement.value} " is not correct Location entry : you have to choose one of them`;
+      newWarning.classList.add('debug-input');
+      newWarning.textContent = `📌 " Choisis une localisation " is not correct Location entry : you have to choose one of them`;
 
       //Checking if is Warning Already on the closest Scope 
       isWarning(inputElement,newWarning);
