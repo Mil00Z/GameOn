@@ -208,30 +208,7 @@ burgerIcon.addEventListener('click',(e)=>{
   }
 
 
-  // Simple Testing number of validate Input
 
-  function isValidate(validElements,numberElements) {
-
-  const getValidInputs = document.body.querySelectorAll(`${validElements}`);
-
-  
-    if (getValidInputs.length < numberElements) {
-  
-        throw new Error('Erreure de validation de formulaire');
-      
-    } else {
-  
-       // Fade In Sucess
-       formSubmit.classList.toggle('sucess');
-    
-       document.body.querySelector('.modal-message').classList.toggle('on');
-  
-    }
-  
- 
-  }
-
-  
   //Testing if the Birthdate Year is juste older than 18
   function isLegal(getDateYear){
 
@@ -259,26 +236,8 @@ burgerIcon.addEventListener('click',(e)=>{
 
     } else {
 
-      console.log(`${inputElement.getAttribute('name')} // is a good Input Field Data 💪`);
+      // console.log(`${inputElement.getAttribute('name')} // is a good Input Field Data 💪`);
     }
-
-  }
-
-
-  function OkSubmit() {
-
-    const box = document.createElement("div");
-
-    box.classList.add('debeug');
-    document.querySelector('.content').append(box);
-
-
-    //Create Date submission
-    let timer = new Date();
-
-    //Display submission date on debeug panel
-    box.textContent = `Form Submitted at: ${timer.getDate()}/${timer.getUTCMonth()}/${timer.getFullYear()} 
-    ${timer.getHours()}h${timer.getMinutes()}`;
 
   }
 
@@ -324,7 +283,7 @@ burgerIcon.addEventListener('click',(e)=>{
           displayInputDataLog(inputElement,'wrong');
   
           newWarning.classList.add('debug-input');
-          newWarning.textContent = `📌 " ${inputElement.value} " is incorrect Names.
+          newWarning.textContent = `📌 Incorrect Names :
           2 Characters required / no empty string / no numbers`;
 
           //Checking if a Warning is Already on the closest Scope of Data
@@ -337,9 +296,6 @@ burgerIcon.addEventListener('click',(e)=>{
         // Display Infos in Log
         displayInputDataLog(inputElement);
     
-        // Display Data On CSS class
-        inputElement.classList.add('valid');
-
         existWarning(inputElement);
        
         return true 
@@ -368,8 +324,8 @@ burgerIcon.addEventListener('click',(e)=>{
        displayInputDataLog(inputElement,'wrong');
   
        newWarning.classList.add('debug-input');
-       newWarning.textContent = `📌 " ${inputElement.value} " is incorrect Email.
-      Special Characters is missing // too short entry `;
+       newWarning.textContent = `📌 Incorrect Email :
+      Special Characters is missing / short entry `;
 
       
       //Checking if is Warning Already on the closest Scope 
@@ -382,9 +338,6 @@ burgerIcon.addEventListener('click',(e)=>{
       // Display Infos in Log
       displayInputDataLog(inputElement);
   
-      // Display Data On CSS class
-      inputElement.classList.add('valid');
-
       existWarning(inputElement);
 
       return true;
@@ -407,7 +360,7 @@ burgerIcon.addEventListener('click',(e)=>{
 
      
       newWarning.classList.add('debug-input');
-      newWarning.textContent = `📌 " ${inputElement.value} " is incorrect Number of participation.`;
+      newWarning.textContent = `📌 Incorrect Number of participation.`;
 
       //Checking if is Warning Already on the closest Scope 
       createWarning(inputElement,newWarning);
@@ -417,8 +370,6 @@ burgerIcon.addEventListener('click',(e)=>{
     } else {
   
         displayInputDataLog(quantityInput);
-
-        quantityInput.classList.add('valid');
 
         existWarning(inputElement);
   
@@ -445,9 +396,6 @@ burgerIcon.addEventListener('click',(e)=>{
     
       if (isLegal(birthdateDatasYear)) {
   
-        birthdateInput.classList.add('valid');
-        birthdateInput.classList.remove('invalid');
-
         existWarning(inputElement);
   
         return true;
@@ -458,15 +406,11 @@ burgerIcon.addEventListener('click',(e)=>{
        displayInputDataLog(birthdateInput,'wrong');
   
        newWarning.classList.add('debug-input');
-       newWarning.textContent = `📌 " ${inputElement.value} " is incorrect Date entry : you're too Young.`;
+       newWarning.textContent = `📌 Incorrect Date entry : you're too Young.`;
 
          //Checking if is Warning Already on the closest Scope 
          createWarning(inputElement,newWarning);
   
-         birthdateInput.classList.add('invalid');
-         birthdateInput.classList.remove('valid');
-
-
         return false;
   
       }
@@ -476,7 +420,7 @@ burgerIcon.addEventListener('click',(e)=>{
        displayInputDataLog(birthdateInput,'wrong');
   
        newWarning.classList.add('debug-input');
-       newWarning.textContent = `📌 " ${inputElement.value} " is incorrect Date entry : you're too Young.`;
+       newWarning.textContent = `📌 Incorrect Date entry.`;
 
 
        //Checking if is Warning Already on the closest Scope 
@@ -515,20 +459,14 @@ burgerIcon.addEventListener('click',(e)=>{
       // Display Infos in Log
       displayInputDataLog(inputElement);
 
-      // Display Data On CSS class
-      inputElement.classList.add('valid');
-
-      newWarning.classList.add('debug-input','checked');
-      
       existWarning(inputElement);
 
-    
       return true;
 
     } else {
 
       newWarning.classList.add('debug-input');
-      newWarning.textContent = `📌 " Choisis une localisation " is not correct Location entry : you have to choose one of them`;
+      newWarning.textContent = `📌 Incorrect Location entry : you have to choose one of them`;
 
       //Checking if is Warning Already on the closest Scope 
       createWarning(inputElement,newWarning);
@@ -551,18 +489,16 @@ burgerIcon.addEventListener('click',(e)=>{
         if (!inputElement.checked) {
 
           newWarning.classList.add('debug-input');
-          newWarning.textContent = `📌 first checkbox conditions " ${inputElement.getAttribute('name')} " required`;
+          newWarning.textContent = `📌 Checking 'Utilisation Conditions' is required`;
 
           createWarning(inputElement,newWarning);
       
-          console.error(`this input is required !`);
+          console.warn(`this input as "${inputElement.getAttribute('name')}" is required !`);
 
           return false;
           
         } else {
 
-          inputElement.classList.add('valid');
-          
           inputElement.parentNode.lastChild.remove();
 
           return true;
@@ -570,7 +506,7 @@ burgerIcon.addEventListener('click',(e)=>{
 
     } else {
 
-      console.log(`input checkbox checked but not required`);
+      console.log(`this input checkbox checked but not required`);
 
       return true;
 
