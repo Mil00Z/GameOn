@@ -328,12 +328,12 @@ burgerIcon.addEventListener('click',(e)=>{
       let inputData = inputElement?.value;
   
       // Regex Rules with Testing number inside
-      const regexNames = new RegExp("[0-9]");
+      const regexNames = new RegExp("^[a-zA-Z]+$");
   
       // MiniMal Length Required
       const minimalNamesLength = 2;
   
-      if(regexNames.test(inputData) || inputData.length < minimalNamesLength || inputData === undefined ) {
+      if(!regexNames.test(inputData) || inputData.length < minimalNamesLength || inputData === undefined ) {
 
           // Display Infos in Log
           displayInputDataLog(inputElement,'wrong');
