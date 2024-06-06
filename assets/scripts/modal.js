@@ -306,11 +306,10 @@ burgerIcon.addEventListener('click',(e)=>{
   // Logical Fonction testing
   function validateNames(inputElement){
 
-    //Inject Warning Message about the Input Field
-    let newWarning = document.createElement('div');
-
       // Get Data Text on Change
       let inputData = inputElement?.value;
+      
+      console.log(inputData);
   
       // Regex Rules with Testing number inside
       const regexNames = new RegExp("^[a-zA-Z]+$");
@@ -320,15 +319,19 @@ burgerIcon.addEventListener('click',(e)=>{
   
       if(!regexNames.test(inputData) || inputData.length < minimalNamesLength || inputData === undefined ) {
 
+        //Inject Warning Message about the Input Field
+        let newWarning = document.createElement('div');
+
+      
           // Display Infos in Log
           displayInputDataLog(inputElement,'wrong');
   
-          newWarning.classList.add('debug-input');
-          newWarning.textContent = `📌 " ${inputElement.value} " is incorrect Names.
-          2 Characters required / no empty string / no numbers`;
-
           //Checking if a Warning is Already on the closest Scope of Data
           createWarning(inputElement,newWarning);
+
+          newWarning.classList.add('debug-input');
+          newWarning.textContent = `📌 " ${inputData} " is incorrect Names.
+          2 Characters required / no empty string / no numbers`;
 
           return false;
     
@@ -350,9 +353,6 @@ burgerIcon.addEventListener('click',(e)=>{
 
   function validateEmail(inputElement) {
 
-    //Inject Warning Message about the Input Field
-    let newWarning = document.createElement('div');
-
     // Get Data Text on Change
     let inputData = inputElement?.value;
   
@@ -363,18 +363,21 @@ burgerIcon.addEventListener('click',(e)=>{
     const minimalEmailLength = 6;
   
     if(!inputData.match(regexEmail) || inputData.length < minimalEmailLength){
-  
-       // Display Infos in Log
-       displayInputDataLog(inputElement,'wrong');
-  
-       newWarning.classList.add('debug-input');
-       newWarning.textContent = `📌 " ${inputElement.value} " is incorrect Email.
-      Special Characters is missing // too short entry `;
 
-      
+      //Inject Warning Message about the Input Field
+      let newWarning = document.createElement('div');
+  
+      // Display Infos in Log
+      displayInputDataLog(inputElement,'wrong');
+
       //Checking if is Warning Already on the closest Scope 
       createWarning(inputElement,newWarning);
+  
+       newWarning.classList.add('debug-input');
+       newWarning.textContent = `📌 " ${inputData} " is incorrect Email.
+      Special Characters is missing // too short entry `;
 
+    
       return false;
   
     } else {
@@ -584,6 +587,7 @@ burgerIcon.addEventListener('click',(e)=>{
    function createWarning(targetInput,warningElement,warningClass='.debug-input',formScope ='.formData') {
 
     if(!targetInput.parentElement.querySelector(`${warningClass}`)) {
+
 
         targetInput.closest(`${formScope}`).append(warningElement);
 
