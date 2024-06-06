@@ -42,21 +42,16 @@ if (modalTrigger !== null && modalCloser !== null) {
 // Get some Interactions in Modal
 const modalbodyChilds = document.querySelectorAll('.modal-body > *');
 
-
 modalbodyChilds.forEach((modalChild) => {
-
-  // console.log(modalChild);
 
   let getClassName = modalChild.getAttribute('class');
 
   modalChild.dataset.fonction = getClassName; 
 
-  //Display Childs of the Form Body
-  // console.log(modalChild.dataset.display);
 });
 
 
-// Testing Simple click "fake" submiting Form
+// Submitting Form Test
 const elementTarget = '.modal-form';
 const formSubmit = document.querySelector(`${elementTarget}`);
 
@@ -64,7 +59,7 @@ formSubmit.addEventListener('submit',(e)=> {
 
   e.preventDefault();
 
-  if (!validateNames(document.querySelector('#first')) | !validateNames(document.querySelector('#last')) | !validateEmail(emailInput) | !validateBirthday(birthdateInput) | !validateQuantity(quantityInput) | !validateLegals(document.querySelector('#checkbox1')) ) {
+  if (!validateNames(document.querySelector('#first')) | !validateNames(document.querySelector('#last')) | !validateEmail(emailInput) | !validateBirthday(birthdateInput) | !validateQuantity(quantityInput) | !validateLegals(document.querySelector('#checkbox1')) | !validateLocation() ) {
 
     console.error('Error(s) in Form !');
 
@@ -75,8 +70,6 @@ formSubmit.addEventListener('submit',(e)=> {
     // Get Datas
     getDataInput(`${elementTarget}`);
  
-    // OkSubmit();
-
      // Fade In Sucess
      e.target.classList.toggle('sucess');
   
@@ -84,15 +77,10 @@ formSubmit.addEventListener('submit',(e)=> {
 
   }
 
-      // isValidate('.valid',4);
-
+  
 });
 
   
-
- 
-
-
 //Inputs Names : Testing group of same datas Text
 const namesInput = document.querySelectorAll('#first,#last');
 namesInput.forEach((input)=>{
@@ -117,14 +105,13 @@ emailInput.addEventListener('change',(e)=> {
 
 
 
-// Input Quantity Competitions
+// Input Quantity 
 const quantityInput = document.querySelector('#quantity');
 quantityInput.addEventListener('change', (e)=> {
 
   validateQuantity(e.target)
 
 });
-
 
 
 // Input Birthdate 
@@ -139,15 +126,16 @@ birthdateInput.addEventListener('change', (e)=> {
 
 //Inputs Location Radio
 const locationInputs = document.querySelectorAll(`input[name='location']`);
+
 locationInputs.forEach((location) => {
 
-  //Inject Warning Message about the Input Field
-  let newWarning = document.createElement('div');
-
   location.addEventListener('change',(e) => {
-    
-    validateLocation(e.target);
-    
+
+    const inputElement = e.target;
+
+    validateLocation();
+
+  
   });
 
 });
@@ -217,17 +205,6 @@ burgerIcon.addEventListener('click',(e)=>{
 
     element.classList.toggle('on');
 
-    // console.log('switch state function');
-
-  }
-
-  
-  function getModalHeight(target){
-
-     let modalFlexHeight = e.target.closest(`${target}`).offsetHeight;
-
-    console.log(modalFlexHeight);
-
   }
 
 
@@ -262,8 +239,6 @@ burgerIcon.addEventListener('click',(e)=>{
     const legalAge = 18;
 
     if (yearToday - getDateYear < legalAge) {
-
-        // console.warn('Ask your parent to doing this buddy :', `${yearToday - getDateYear} years`);
 
         return false ;
 
@@ -327,17 +302,6 @@ burgerIcon.addEventListener('click',(e)=>{
   }
 
 
-  // Testing Function for WarningMessage is already in closest scope
-  function isWarning(inputElement,warningElement,warningClass='.debug-input',formScope ='.formData') {
-
-    if(!inputElement.parentElement.querySelector(`${warningClass}`)) {
-
-        inputElement.closest(`${formScope}`).append(warningElement);
-
-    }
-
-  }
-
 
   // Logical Fonction testing
   function validateNames(inputElement){
@@ -349,12 +313,12 @@ burgerIcon.addEventListener('click',(e)=>{
       let inputData = inputElement?.value;
   
       // Regex Rules with Testing number inside
-      const regexNames = new RegExp("[0-9]");
+      const regexNames = new RegExp("^[a-zA-Z]+$");
   
       // MiniMal Length Required
       const minimalNamesLength = 2;
   
-      if(regexNames.test(inputData) || inputData.length < minimalNamesLength || inputData === undefined ) {
+      if(!regexNames.test(inputData) || inputData.length < minimalNamesLength || inputData === undefined ) {
 
           // Display Infos in Log
           displayInputDataLog(inputElement,'wrong');
@@ -364,8 +328,8 @@ burgerIcon.addEventListener('click',(e)=>{
           2 Characters required / no empty string / no numbers`;
 
           //Checking if a Warning is Already on the closest Scope of Data
-          isWarning(inputElement,newWarning);
-          
+          createWarning(inputElement,newWarning);
+
           return false;
     
         } else {
@@ -375,14 +339,9 @@ burgerIcon.addEventListener('click',(e)=>{
     
         // Display Data On CSS class
         inputElement.classList.add('valid');
-        
-        // Remove all Debeug Input
-        let closestsWarning = document.querySelectorAll('.formData .debug-input');
-  
-        for (var warner of closestsWarning) {
-            warner.remove();
-        }
-  
+
+        existWarning(inputElement);
+       
         return true 
       }
   
@@ -398,7 +357,7 @@ burgerIcon.addEventListener('click',(e)=>{
     let inputData = inputElement?.value;
   
     // Standard Regex found on Web
-    const regexEmail = new RegExp("[A-Za-z0-9\._%+\-]+@[A-Za-z0-9\.\-]+\.[A-Za-z]{2,}");
+    const regexEmail = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\.[a-z0-9._-]+");
   
     // Minimal Length of Email by my Vision : 1 charac in the start, 1 '@', 1 charac between symbol, 1 '.', 2 charac after '.'
     const minimalEmailLength = 6;
@@ -414,7 +373,7 @@ burgerIcon.addEventListener('click',(e)=>{
 
       
       //Checking if is Warning Already on the closest Scope 
-      isWarning(inputElement,newWarning);
+      createWarning(inputElement,newWarning);
 
       return false;
   
@@ -425,13 +384,8 @@ burgerIcon.addEventListener('click',(e)=>{
   
       // Display Data On CSS class
       inputElement.classList.add('valid');
-      
-      //Remove all Debeug Input
-      let closestsWarning = document.querySelectorAll('.formData .debug-input');
-      
-      for (var warner of closestsWarning) {
-        warner.remove();
-      }
+
+      existWarning(inputElement);
 
       return true;
   
@@ -456,14 +410,17 @@ burgerIcon.addEventListener('click',(e)=>{
       newWarning.textContent = `📌 " ${inputElement.value} " is incorrect Number of participation.`;
 
       //Checking if is Warning Already on the closest Scope 
-      isWarning(inputElement,newWarning);
+      createWarning(inputElement,newWarning);
 
       return false;
   
     } else {
   
         displayInputDataLog(quantityInput);
+
         quantityInput.classList.add('valid');
+
+        existWarning(inputElement);
   
         return true;
         
@@ -490,6 +447,8 @@ burgerIcon.addEventListener('click',(e)=>{
   
         birthdateInput.classList.add('valid');
         birthdateInput.classList.remove('invalid');
+
+        existWarning(inputElement);
   
         return true;
         
@@ -502,10 +461,10 @@ burgerIcon.addEventListener('click',(e)=>{
        newWarning.textContent = `📌 " ${inputElement.value} " is incorrect Date entry : you're too Young.`;
 
          //Checking if is Warning Already on the closest Scope 
-         isWarning(inputElement,newWarning);
+         createWarning(inputElement,newWarning);
   
-        birthdateInput.classList.add('invalid');
-        birthdateInput.classList.remove('valid');
+         birthdateInput.classList.add('invalid');
+         birthdateInput.classList.remove('valid');
 
 
         return false;
@@ -521,7 +480,7 @@ burgerIcon.addEventListener('click',(e)=>{
 
 
        //Checking if is Warning Already on the closest Scope 
-       isWarning(inputElement,newWarning);
+       createWarning(inputElement,newWarning);
   
       return false;
     }
@@ -529,36 +488,50 @@ burgerIcon.addEventListener('click',(e)=>{
   }
 
 
-  function validateLocation(inputElement) {
+  let isValidLocation = false;
+
+  function validateLocation() {
+
+    let result = false ;
 
     //Inject Warning Message about the Input Field
     let newWarning = document.createElement('div');
+   
+    locationInputs.forEach((location) => {
 
-    if (inputElement.checked) {
+      if (location.checked) {
+
+        result = true;
+        
+      }
+    
+    });
+
+
+    const inputElement = locationInputs[0];
+
+    if (result == true ) {
 
       // Display Infos in Log
       displayInputDataLog(inputElement);
-
-      console.log(inputElement.value,'=> is checked');
 
       // Display Data On CSS class
       inputElement.classList.add('valid');
 
       newWarning.classList.add('debug-input','checked');
-      newWarning.textContent = `🤡 Trouver la solution inverse => déclencher l'alerte au Submit quand 'non coché' `;
+      
+      existWarning(inputElement);
 
-      //Checking if is Warning Already on the closest Scope 
-      isWarning(inputElement,newWarning);
-
+    
       return true;
 
     } else {
 
-      newWarning.classList.add('debug-input','checked');
-      newWarning.textContent = `📌 " ${inputElement.value} " is not correct Location entry : you have to choose one of them`;
+      newWarning.classList.add('debug-input');
+      newWarning.textContent = `📌 " Choisis une localisation " is not correct Location entry : you have to choose one of them`;
 
       //Checking if is Warning Already on the closest Scope 
-      isWarning(inputElement,newWarning);
+      createWarning(inputElement,newWarning);
 
       return false;
 
@@ -580,7 +553,7 @@ burgerIcon.addEventListener('click',(e)=>{
           newWarning.classList.add('debug-input');
           newWarning.textContent = `📌 first checkbox conditions " ${inputElement.getAttribute('name')} " required`;
 
-          isWarning(inputElement,newWarning);
+          createWarning(inputElement,newWarning);
       
           console.error(`this input is required !`);
 
@@ -607,12 +580,37 @@ burgerIcon.addEventListener('click',(e)=>{
   }
 
 
+   // Create WarningMessage if is not already in closest scope
+   function createWarning(targetInput,warningElement,warningClass='.debug-input',formScope ='.formData') {
+
+    if(!targetInput.parentElement.querySelector(`${warningClass}`)) {
+
+        targetInput.closest(`${formScope}`).append(warningElement);
+
+    }
+
+  }
+
+
+ // Testing if Warning already in closest scope
+  function existWarning(targetInput){
+
+    if(targetInput.parentElement.querySelector(`.debug-input`)) {
+
+      targetInput.parentElement.querySelector(`.debug-input`).remove();
+
+    }
+
+  }
+
+
   // Proof of Datas Submission after Submission
   window.addEventListener('load', (e) => {
     
       console.table(localStorage.getItem('the-form-count'));
 
   });
+  
 
 
 
