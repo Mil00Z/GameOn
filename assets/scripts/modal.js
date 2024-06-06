@@ -378,7 +378,7 @@ burgerIcon.addEventListener('click',(e)=>{
     let inputData = inputElement?.value;
   
     // Standard Regex found on Web
-    const regexEmail = new RegExp("[A-Za-z0-9\._%+\-]+@[A-Za-z0-9\.\-]+\.[A-Za-z]{2,}");
+    const regexEmail = new RegExp("[a-z0-9._-]+@[a-z0-9._-]+\.[a-z0-9._-]+");
   
     // Minimal Length of Email by my Vision : 1 charac in the start, 1 '@', 1 charac between symbol, 1 '.', 2 charac after '.'
     const minimalEmailLength = 6;
